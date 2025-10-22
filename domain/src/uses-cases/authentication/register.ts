@@ -1,5 +1,5 @@
 import { IUser, UserRole } from "../../entities"
-import { authenticationService } from "../../services/authentication/authentication-service"
+import { authenticationService } from "../../services/authentication/auth-service"
 import { Response } from "../../utils/types/response"
 
 
@@ -13,25 +13,26 @@ export async function registerUser({ dependencies, payload }: registerUserData):
     const { email, password } = payload
 
     let validEmail = await dependencies.authenticationService.validEmail(email)
-    if (!validEmail.success) return {success: false, error: validEmail.error}
+    if (!validEmail.success) return { success: false, error: validEmail.error }
 
-    if(!password ||password.length === 0) return {success: false, error: 'Invalid password'}
+    if (!password || password.length === 0) return { success: false, error: 'Invalid password' }
 
     let existUserInDB = await dependencies.authenticationService.findUserByEmail(email)
+
+
     if (existUserInDB.success && existUserInDB.data) {
-        return {success: false, error: 'User already exists'}
+        return { success: false, error: 'User already exists' }
     }
-    
-    if(email.toLowerCase() === 'admin@admin.com') {
+
+    if (email.toLowerCase() === 'admin@admin.com') {
         payload.role = UserRole.ADMIN;
     }
 
     const createUser = await dependencies.authenticationService.create(payload)
-
     if (!createUser.success) {
-        return {success: false, error: createUser.error}
+        return { success: false, error: createUser.error }
     }
 
 
-    return {success: true, data: createUser.data}
+    return { success: true, data: createUser.data }
 }

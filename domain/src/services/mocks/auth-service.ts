@@ -2,7 +2,6 @@ import { IUser } from "../../entities";
 import { authenticationService } from "../authentication/auth-service";
 import { Response } from "../../utils/index";
 import jwt from 'jsonwebtoken';
-import { config } from "../../config/config";
 import { BaseServiceMock } from "./base-service-mock";
 
 export class AuthenticationServiceMock extends BaseServiceMock<IUser> implements authenticationService {
@@ -35,7 +34,7 @@ export class AuthenticationServiceMock extends BaseServiceMock<IUser> implements
     async generateTokenUser(dataUser: Omit<IUser, "password">): Promise<Response<string>> {
         const token = jwt.sign(
             dataUser,
-            config.SECRET_KEY_JWT,
+            process.env.SECRET_KEY_JWT!,
             { expiresIn: '1h' }
         );
         return { success: true, data: token };
