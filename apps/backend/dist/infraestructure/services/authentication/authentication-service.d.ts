@@ -6,7 +6,7 @@ export declare class AuthenticationService implements authenticationService {
     create(dataUser: Omit<IUser, "id">): Promise<Response<IUser>>;
     validEmail(email: string): Promise<Response<boolean>>;
     validPassword(password: string, user: IUser): Promise<Response<IUser>>;
-    generateTokenUser(dataUser: Omit<IUser, "password">): Promise<Response<object>>;
+    generateTokenUser(dataUser: Omit<IUser, "password">): Promise<Response<string>>;
     editOne(id: string, payload: Partial<IUser>): Promise<Response<IUser>>;
     deleteOne(id: string): Promise<Response<void>>;
 }

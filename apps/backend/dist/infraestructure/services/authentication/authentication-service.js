@@ -5,12 +5,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthenticationService = void 0;
 const index_js_1 = require("../../../../../../domain/dist/index.js");
-const user_model_1 = require("../../../models/user-model");
+const user_model_js_1 = require("../../../models/user-model.js");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 class AuthenticationService {
     async findAll() {
         try {
-            const users = await user_model_1.UserModel.find().lean();
+            const users = await user_model_js_1.UserModel.find().lean();
             return { success: true, data: users };
         }
         catch (error) {
@@ -19,7 +19,7 @@ class AuthenticationService {
     }
     async findById(id) {
         try {
-            const user = await user_model_1.UserModel.findById(id).lean();
+            const user = await user_model_js_1.UserModel.findById(id).lean();
             if (!user)
                 return { success: false, error: "User not found" };
             return { success: true, data: user };
@@ -30,7 +30,7 @@ class AuthenticationService {
     }
     async findUserByEmail(email) {
         try {
-            const user = await user_model_1.UserModel.findOne({ email }).lean();
+            const user = await user_model_js_1.UserModel.findOne({ email }).lean();
             if (!user)
                 return { success: false, error: "User not found" };
             return { success: true, data: user };
@@ -41,7 +41,7 @@ class AuthenticationService {
     }
     async create(dataUser) {
         try {
-            const newUser = await user_model_1.UserModel.create(dataUser);
+            const newUser = await user_model_js_1.UserModel.create(dataUser);
             return { success: true, data: newUser.toObject() };
         }
         catch (error) {
@@ -64,7 +64,7 @@ class AuthenticationService {
     async generateTokenUser(dataUser) {
         try {
             const token = jsonwebtoken_1.default.sign(dataUser, index_js_1.config.SECRET_KEY_JWT, { expiresIn: "1h" });
-            return { success: true, data: { token } };
+            return { success: true, data: token };
         }
         catch (error) {
             return { success: false, error: "Error generating token" };
@@ -72,7 +72,7 @@ class AuthenticationService {
     }
     async editOne(id, payload) {
         try {
-            const updatedUser = await user_model_1.UserModel.findByIdAndUpdate(id, payload, { new: true }).lean();
+            const updatedUser = await user_model_js_1.UserModel.findByIdAndUpdate(id, payload, { new: true }).lean();
             if (!updatedUser)
                 return { success: false, error: "User not found" };
             return { success: true, data: updatedUser };
@@ -83,7 +83,7 @@ class AuthenticationService {
     }
     async deleteOne(id) {
         try {
-            const deleted = await user_model_1.UserModel.findByIdAndDelete(id).lean();
+            const deleted = await user_model_js_1.UserModel.findByIdAndDelete(id).lean();
             if (!deleted)
                 return { success: false, error: "User not found" };
             return { success: true, data: undefined };

@@ -32,12 +32,12 @@ export class AuthenticationServiceMock extends BaseServiceMock<IUser> implements
         return { success: true, data: existUserInDB };
     }
 
-    async generateTokenUser(dataUser: Omit<IUser, "password">): Promise<Response<object>> {
+    async generateTokenUser(dataUser: Omit<IUser, "password">): Promise<Response<string>> {
         const token = jwt.sign(
             dataUser,
             config.SECRET_KEY_JWT!,
             { expiresIn: '1h' }
         );
-        return { success: true, data: {token} };
+        return { success: true, data: token };
     }
 }

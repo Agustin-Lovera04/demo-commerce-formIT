@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { registerUser, loginUser } from "../../../../domain/dist/index.js";
-import { AuthenticationService } from "../infrastructure/services/authentication/authentication-service.js"
+import { AuthenticationService } from "../infraestructure/services/authentication/authentication-service.js"
 export const router = Router();
 const authService = new AuthenticationService();
 

@@ -33,7 +33,7 @@ class AuthenticationServiceMock extends base_service_mock_1.BaseServiceMock {
     }
     async generateTokenUser(dataUser) {
         const token = jsonwebtoken_1.default.sign(dataUser, config_1.config.SECRET_KEY_JWT, { expiresIn: '1h' });
-        return { success: true, data: { token } };
+        return { success: true, data: token };
     }
 }
 exports.AuthenticationServiceMock = AuthenticationServiceMock;

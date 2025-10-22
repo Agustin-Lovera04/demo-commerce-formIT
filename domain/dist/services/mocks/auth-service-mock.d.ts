@@ -7,6 +7,6 @@ export declare class AuthenticationServiceMock extends BaseServiceMock<IUser> im
     findUserByEmail(email: string): Promise<Response<IUser>>;
     validEmail(email: string): Promise<Response<boolean>>;
     validPassword(password: string, existUserInDB: IUser): Promise<Response<IUser>>;
-    generateTokenUser(dataUser: Omit<IUser, "password">): Promise<Response<object>>;
+    generateTokenUser(dataUser: Omit<IUser, "password">): Promise<Response<string>>;
 }
 //# sourceMappingURL=auth-service-mock.d.ts.map

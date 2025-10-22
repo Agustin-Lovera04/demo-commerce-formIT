@@ -1,6 +1,7 @@
 import express from "express";
 import { Request, Response } from "express";
  import {router as authRouter} from "../routes/auth-router";
+ import {router as productsRouter} from "../routes/products-router";
 /*import {router as cartRouter} from "../routes/auth-routes.js"; */
 
 export function createApp(db: any) {
@@ -9,6 +10,7 @@ export function createApp(db: any) {
     app.use(express.json());
 
   /*  app.use('/cart', cartRouter) */
+  app.use('/products', productsRouter)
     app.use('/auth', authRouter)
 
     app.get('/', async (req: Request, res: Response) => {
