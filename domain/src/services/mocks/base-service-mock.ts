@@ -1,6 +1,6 @@
 import { Entity, Response } from "../../utils/index";
 
-export abstract class BaseServiceMock<TEntity extends Entity> {
+export class BaseServiceMock<TEntity extends Entity> {
   protected items: TEntity[];
 
   constructor(initialItems: TEntity[] = []) {
