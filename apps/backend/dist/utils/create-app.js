@@ -7,11 +7,11 @@ exports.createApp = createApp;
 const express_1 = __importDefault(require("express"));
 const auth_router_1 = require("../routes/auth-router");
 const products_router_1 = require("../routes/products-router");
-/*import {router as cartRouter} from "../routes/auth-routes.js"; */
+const cart_router_1 = require("../routes/cart-router");
 function createApp(db) {
     const app = (0, express_1.default)();
     app.use(express_1.default.json());
-    /*  app.use('/cart', cartRouter) */
+    app.use('/cart', cart_router_1.router);
     app.use('/products', products_router_1.router);
     app.use('/auth', auth_router_1.router);
     app.get('/', async (req, res) => {

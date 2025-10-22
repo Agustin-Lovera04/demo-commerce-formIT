@@ -1,11 +1,13 @@
 import { Router, Request, Response } from "express";
 import { ProductsServiceReal } from "../infraestructure/services/products/products-service";
 import { createProduct, deleteProducts, editProducts, getAllProducts, getProductById } from "../../../../domain/dist";
+import { accessControl } from "../middleware/accessControl";
+import { jwtValidate } from "../middleware/jwtValidate";
 
 export const router = Router();
 const productsService = new ProductsServiceReal();
 
-router.get("/getAllProducts", async (req: Request, res: Response) => {
+router.get("/getAllProducts", jwtValidate, accessControl(['CLIENT', 'ADMIN']),async (req: Request, res: Response) => {
   try {
     const result = await getAllProducts({
       dependencies: productsService,
@@ -21,7 +23,7 @@ router.get("/getAllProducts", async (req: Request, res: Response) => {
   }
 });
 
-router.get("/getProduct/:id", async (req: Request, res: Response) => {
+router.get("/getProduct/:id", jwtValidate, accessControl(['CLIENT', 'ADMIN']),async (req: Request, res: Response) => {
   try {
     const {id} = req.params
     if(!id){
@@ -43,7 +45,7 @@ router.get("/getProduct/:id", async (req: Request, res: Response) => {
   }
 });
 
-router.post("/createProduct", async (req: Request, res: Response) => {
+router.post("/createProduct", jwtValidate, accessControl(['ADMIN']),async (req: Request, res: Response) => {
   try {
     const result = await createProduct({
       dependencies: productsService,
@@ -60,7 +62,7 @@ router.post("/createProduct", async (req: Request, res: Response) => {
   }
 });
 
-router.put("/editProduct/:id", async (req: Request, res: Response) => {
+router.put("/editProduct/:id", jwtValidate, accessControl(['ADMIN']),async (req: Request, res: Response) => {
   try {
     const {id} = req.params
     if(!id){
@@ -82,7 +84,7 @@ router.put("/editProduct/:id", async (req: Request, res: Response) => {
   }
 });
 
-router.delete("/deleteProduct/:id", async (req: Request, res: Response) => {
+router.delete("/deleteProduct/:id", jwtValidate, accessControl(['ADMIN']),async (req: Request, res: Response) => {
   try {
     const {id} = req.params
     if(!id){
