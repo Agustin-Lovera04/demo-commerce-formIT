@@ -11,6 +11,7 @@ export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 const userSchema = new Schema<IUser>({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  cartId: { type: String},
   name: { type: String },
   role: { type: String, UserRole },
 });

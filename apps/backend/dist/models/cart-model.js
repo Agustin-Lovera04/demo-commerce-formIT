@@ -10,6 +10,7 @@ const cartSchema = new mongoose_1.default.Schema({
         {
             product: { type: String, required: true },
             quantity: { type: Number, default: 1 },
+            price: { type: Number },
             subtotal: { type: Number }
         },
     ],

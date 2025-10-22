@@ -3,14 +3,17 @@ export declare const CartModel: mongoose.Model<{
     products: mongoose.Types.DocumentArray<{
         product: string;
         quantity: number;
+        price?: number | null;
         subtotal?: number | null;
     }, mongoose.Types.Subdocument<mongoose.mongo.BSON.ObjectId, any, {
         product: string;
         quantity: number;
+        price?: number | null;
         subtotal?: number | null;
     }> & {
         product: string;
         quantity: number;
+        price?: number | null;
         subtotal?: number | null;
     }>;
     total: number;
@@ -18,14 +21,17 @@ export declare const CartModel: mongoose.Model<{
     products: mongoose.Types.DocumentArray<{
         product: string;
         quantity: number;
+        price?: number | null;
         subtotal?: number | null;
     }, mongoose.Types.Subdocument<mongoose.mongo.BSON.ObjectId, any, {
         product: string;
         quantity: number;
+        price?: number | null;
         subtotal?: number | null;
     }> & {
         product: string;
         quantity: number;
+        price?: number | null;
         subtotal?: number | null;
     }>;
     total: number;
@@ -33,14 +39,17 @@ export declare const CartModel: mongoose.Model<{
     products: mongoose.Types.DocumentArray<{
         product: string;
         quantity: number;
+        price?: number | null;
         subtotal?: number | null;
     }, mongoose.Types.Subdocument<mongoose.mongo.BSON.ObjectId, any, {
         product: string;
         quantity: number;
+        price?: number | null;
         subtotal?: number | null;
     }> & {
         product: string;
         quantity: number;
+        price?: number | null;
         subtotal?: number | null;
     }>;
     total: number;
@@ -52,14 +61,17 @@ export declare const CartModel: mongoose.Model<{
     products: mongoose.Types.DocumentArray<{
         product: string;
         quantity: number;
+        price?: number | null;
         subtotal?: number | null;
     }, mongoose.Types.Subdocument<mongoose.mongo.BSON.ObjectId, any, {
         product: string;
         quantity: number;
+        price?: number | null;
         subtotal?: number | null;
     }> & {
         product: string;
         quantity: number;
+        price?: number | null;
         subtotal?: number | null;
     }>;
     total: number;
@@ -67,14 +79,17 @@ export declare const CartModel: mongoose.Model<{
     products: mongoose.Types.DocumentArray<{
         product: string;
         quantity: number;
+        price?: number | null;
         subtotal?: number | null;
     }, mongoose.Types.Subdocument<mongoose.mongo.BSON.ObjectId, any, {
         product: string;
         quantity: number;
+        price?: number | null;
         subtotal?: number | null;
     }> & {
         product: string;
         quantity: number;
+        price?: number | null;
         subtotal?: number | null;
     }>;
     total: number;
@@ -82,14 +97,17 @@ export declare const CartModel: mongoose.Model<{
     products: mongoose.Types.DocumentArray<{
         product: string;
         quantity: number;
+        price?: number | null;
         subtotal?: number | null;
     }, mongoose.Types.Subdocument<mongoose.mongo.BSON.ObjectId, any, {
         product: string;
         quantity: number;
+        price?: number | null;
         subtotal?: number | null;
     }> & {
         product: string;
         quantity: number;
+        price?: number | null;
         subtotal?: number | null;
     }>;
     total: number;

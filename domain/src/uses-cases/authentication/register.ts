@@ -1,10 +1,11 @@
 import { IUser, UserRole } from "../../entities"
+import { CartService } from "../../services"
 import { authenticationService } from "../../services/authentication/auth-service"
 import { Response } from "../../utils/types/response"
 
 
 interface registerUserData {
-    dependencies: { authenticationService: authenticationService },
+    dependencies: { authenticationService: authenticationService, cartService: CartService },
     payload: IUser
 }
 
@@ -28,6 +29,12 @@ export async function registerUser({ dependencies, payload }: registerUserData):
         payload.role = UserRole.ADMIN;
     }
 
+    const cart = await dependencies.cartService.createCart()
+    if(!cart.success) return { success: false, error : cart.error}
+
+    if(cart.data.id){
+        payload.cartId = cart.data.id
+    }
     const createUser = await dependencies.authenticationService.create(payload)
     if (!createUser.success) {
         return { success: false, error: createUser.error }

@@ -1,13 +1,15 @@
 import { Router, Request, Response } from "express";
 import { registerUser, loginUser } from "../../../../domain/dist/index.js";
 import { AuthenticationService } from "../infraestructure/services/authentication/authentication-service.js"
+import { CartServiceReal } from "../infraestructure/services/carts/cart-service.js"
 export const router = Router();
 const authService = new AuthenticationService();
+const cartService = new CartServiceReal()
 
 router.post("/register", async (req: Request, res: Response) => {
   try {
     const result = await registerUser({
-      dependencies: { authenticationService: authService },
+      dependencies: { authenticationService: authService, cartService },
       payload: req.body,
     });
     

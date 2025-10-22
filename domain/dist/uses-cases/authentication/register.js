@@ -16,6 +16,12 @@ async function registerUser({ dependencies, payload }) {
     if (email.toLowerCase() === 'admin@admin.com') {
         payload.role = entities_1.UserRole.ADMIN;
     }
+    const cart = await dependencies.cartService.createCart();
+    if (!cart.success)
+        return { success: false, error: cart.error };
+    if (cart.data.id) {
+        payload.cartId = cart.data.id;
+    }
     const createUser = await dependencies.authenticationService.create(payload);
     if (!createUser.success) {
         return { success: false, error: createUser.error };

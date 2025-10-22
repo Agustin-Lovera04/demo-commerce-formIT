@@ -40,5 +40,5 @@ const ProductSchema = new mongoose_1.Schema({
     price: { type: Number, required: true },
     stock: { type: Boolean, required: true },
 });
-exports.ProductModel = mongoose_1.default.model("Products", ProductSchema);
+exports.ProductModel = mongoose_1.default.model("Product", ProductSchema);
 //# sourceMappingURL=products-model.js.map

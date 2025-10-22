@@ -3,9 +3,10 @@ import { describe, test, expect, beforeAll } from 'vitest'
 import { registerUser } from './register'
 import { UserRole } from '../../entities';
 import { userMock } from '../../entities/mocks/user-mock';
+import { CartServiceMock } from '../../services/mocks/cart-service-mocks';
 
 describe('Register', () => {
-
+    let cartService: CartServiceMock
     let authenticationService: AuthenticationServiceMock
 
     beforeAll(() => {
@@ -13,13 +14,13 @@ describe('Register', () => {
             userMock({ email: 'agustin@gmail.com', password: 'Agustin' }),
             userMock()
         ]
-
+        cartService = new CartServiceMock()
         authenticationService = new AuthenticationServiceMock(initialUsers)
     })
 
     test('Receives data from the user, creates it, and returns it.', async () => {
         const result = await registerUser({
-            dependencies: { authenticationService },
+            dependencies: { authenticationService , cartService},
             payload: {
                 id: 'idUnique',
                 email: 'test@gmail.com',
@@ -37,7 +38,7 @@ describe('Register', () => {
 
     test('Receives user data with email already existing in the database and should return an error', async () => {
         const result = await registerUser({
-            dependencies: { authenticationService },
+            dependencies: { authenticationService, cartService },
             payload: {
                 id: 'idUnique',
                 email: 'test@gmail.com',
@@ -55,7 +56,7 @@ describe('Register', () => {
 
     test('Receives user data with email already existing in the database and should return an error', async () => {
         const result = await registerUser({
-            dependencies: { authenticationService },
+            dependencies: { authenticationService, cartService },
             payload: {
                 id: 'idUnique',
                 email: 'test2@gmail.com',
@@ -73,7 +74,7 @@ describe('Register', () => {
 
     test('Receives user data with an invalid email and should return an error', async () => {
         const result = await registerUser({
-            dependencies: { authenticationService },
+            dependencies: { authenticationService, cartService },
             payload: {
                 id: 'idUnique',
                 email: 'test',
@@ -90,7 +91,7 @@ describe('Register', () => {
 
     test('Receives user data with role = ADMIN and must create and return the same', async () => {
         const result = await registerUser({
-            dependencies: { authenticationService },
+            dependencies: { authenticationService, cartService },
             payload: {
                 id: 'idADMIN',
                 email: 'ADMIN@gmail.com',

@@ -40,6 +40,21 @@ exports.router.get("/getProduct/:id", async (req, res) => {
         return res.status(500).json({ error: "Internal server error" });
     }
 });
+exports.router.post("/createProduct", async (req, res) => {
+    try {
+        const result = await (0, dist_1.createProduct)({
+            dependencies: productsService,
+            payload: req.body
+        });
+        if (!result.success) {
+            return res.status(400).json({ error: result.error });
+        }
+        return res.status(201).json({ product: result.data });
+    }
+    catch (error) {
+        return res.status(500).json({ error: "Internal server error" });
+    }
+});
 exports.router.put("/editProduct/:id", async (req, res) => {
     try {
         const { id } = req.params;
