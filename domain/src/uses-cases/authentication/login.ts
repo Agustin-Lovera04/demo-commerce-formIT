@@ -11,7 +11,7 @@ interface loginUserData {
     payload: loginData
 }
 
-export async function loginUser({ dependencies, payload }: loginUserData): Promise<Response<object>> {
+export async function loginUser({ dependencies, payload }: loginUserData): Promise<Response<string>> {
     const { email, password } = payload
 
     let valid = await dependencies.authenticationService.validEmail(email)
@@ -34,5 +34,5 @@ export async function loginUser({ dependencies, payload }: loginUserData): Promi
         return {success: false, error: 'Internal error in login process'}
     }
 
-    return {success: true, data: {token: token.data}}
+    return {success: true, data: token.data}
 }

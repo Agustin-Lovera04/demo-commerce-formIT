@@ -19,4 +19,5 @@ __exportStar(require("./response.js"), exports);
 __exportStar(require("./service.js"), exports);
 __exportStar(require("./arguments-functions-products.js"), exports);
 __exportStar(require("./arguments-functions-cart.js"), exports);
+__exportStar(require("./arguments-function-ProductToCart.js"), exports);
 //# sourceMappingURL=index.js.map

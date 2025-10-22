@@ -18,6 +18,6 @@ async function loginUser({ dependencies, payload }) {
     if (!token.success || token.data == undefined) {
         return { success: false, error: 'Internal error in login process' };
     }
-    return { success: true, data: { token: token.data } };
+    return { success: true, data: token.data };
 }
 //# sourceMappingURL=login.js.map

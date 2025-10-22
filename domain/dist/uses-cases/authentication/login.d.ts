@@ -9,6 +9,6 @@ interface loginUserData {
     };
     payload: loginData;
 }
-export declare function loginUser({ dependencies, payload }: loginUserData): Promise<Response<object>>;
+export declare function loginUser({ dependencies, payload }: loginUserData): Promise<Response<string>>;
 export {};
 //# sourceMappingURL=login.d.ts.map

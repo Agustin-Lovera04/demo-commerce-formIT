@@ -1,5 +1,5 @@
 import { authenticationService, IUser, Response, config } from "../../../../../../domain/dist/index.js";
-import { UserModel } from "../../../models/user-model";
+import { UserModel } from "../../../models/user-model.js";
 import jwt from "jsonwebtoken";
 
 export class AuthenticationService implements authenticationService {
@@ -56,10 +56,10 @@ export class AuthenticationService implements authenticationService {
         return { success: true, data: user };
     }
 
-    async generateTokenUser(dataUser: Omit<IUser, "password">): Promise<Response<object>> {
+    async generateTokenUser(dataUser: Omit<IUser, "password">): Promise<Response<string>> {
         try {
             const token = jwt.sign(dataUser, config.SECRET_KEY_JWT, { expiresIn: "1h" });
-            return { success: true, data: {token}};
+            return { success: true, data: token};
         } catch (error) {
             return { success: false, error: "Error generating token" };
         }

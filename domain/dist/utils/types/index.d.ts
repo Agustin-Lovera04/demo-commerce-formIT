@@ -3,4 +3,5 @@ export * from './response.js';
 export * from './service.js';
 export * from './arguments-functions-products.js';
 export * from './arguments-functions-cart.js';
+export * from './arguments-function-ProductToCart.js';
 //# sourceMappingURL=index.d.ts.map
