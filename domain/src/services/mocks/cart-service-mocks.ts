@@ -21,6 +21,8 @@ export class CartServiceMock extends BaseServiceMock<ICart> implements CartServi
 
   async addProductToCart(cid: string, product: IProduct): Promise<Response<ICart>> {
     const cartResult = await this.findById(cid);
+
+
     if (!cartResult.success || !cartResult.data)
       return { success: false, error: "Cart not found" };
 
@@ -47,10 +49,12 @@ export class CartServiceMock extends BaseServiceMock<ICart> implements CartServi
     cart.total = total;
 
     const updateResult = await this.editOne(cid, cart);
+
+
     if (!updateResult.success)
       return { success: false, error: "Error updating cart" };
 
-    return { success: true, data: updateResult.data! };
+    return { success: true, data: updateResult.data };
   }
 
   async deleteProductInCart(cid: string, pid: string): Promise<Response<ICart>> {
