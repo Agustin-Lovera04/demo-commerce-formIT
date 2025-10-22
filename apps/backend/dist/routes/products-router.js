@@ -60,5 +60,25 @@ exports.router.put("/editProduct/:id", async (req, res) => {
         return res.status(500).json({ error: "Internal server error" });
     }
 });
+exports.router.delete("/deleteProduct/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!id) {
+            res.setHeader('Content-Type', 'application/json');
+            return res.status(404).json({ error: 'Missing id' });
+        }
+        const result = await (0, dist_1.deleteProducts)({
+            dependencies: productsService,
+            payload: { id }
+        });
+        if (!result.success) {
+            return res.status(400).json({ error: result.error });
+        }
+        return res.status(201).json({ product: result.data });
+    }
+    catch (error) {
+        return res.status(500).json({ error: "Internal server error" });
+    }
+});
 exports.default = exports.router;
 //# sourceMappingURL=products-router.js.map
