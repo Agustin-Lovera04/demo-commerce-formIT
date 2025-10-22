@@ -5,4 +5,5 @@ import { Service } from "../../utils/types/service";
 export interface CartService extends Service<ICart>{
     createCart: () => Promise<Response<ICart>>
     addProductToCart: (cid: string, product: IProduct) => Promise<Response<ICart>>
+    deleteProductInCart: (cid: string, pid: string) => Promise<Response<ICart>>
 }
