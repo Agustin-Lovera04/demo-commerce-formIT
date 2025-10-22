@@ -1,4 +1,4 @@
-import { AuthenticationServiceMock } from '../../services/mocks/auth-service';
+import { AuthenticationServiceMock } from '../../services/mocks/auth-service-mock';
 import { describe, test, expect, beforeAll } from 'vitest'
 import { registerUser } from './register'
 import { UserRole } from '../../entities';
@@ -53,7 +53,7 @@ describe('Register', () => {
         }
     })
 
-    test('Receives user data with email already existing in DB and should return an error', async () => {
+    test('Receives user data with email already existing in the database and should return an error', async () => {
         const result = await registerUser({
             dependencies: { authenticationService },
             payload: {
@@ -71,7 +71,7 @@ describe('Register', () => {
     })
 
 
-    test('Receives user data with invalid email and should return an error', async () => {
+    test('Receives user data with an invalid email and should return an error', async () => {
         const result = await registerUser({
             dependencies: { authenticationService },
             payload: {
@@ -88,7 +88,7 @@ describe('Register', () => {
         }
     })
 
-    test('Receives user data with role = ADMIN and should create and return the same', async () => {
+    test('Receives user data with role = ADMIN and must create and return the same', async () => {
         const result = await registerUser({
             dependencies: { authenticationService },
             payload: {
