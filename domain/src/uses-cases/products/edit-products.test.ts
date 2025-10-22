@@ -9,9 +9,9 @@ describe('Edit Products', () => {
 
     beforeAll(() => {
         const mockProducts = [
-        productMock(),
-        productMock({ id:'prod', title: "Product", price: 1000 }),
-        productMock({ price: 1000 }),
+            productMock(),
+            productMock({ id: 'prod', title: "Product", price: 1000 }),
+            productMock({ price: 1000 }),
         ];
         productsService = new ProductsServiceMock(mockProducts)
     });
@@ -25,7 +25,7 @@ describe('Edit Products', () => {
         })
 
         expect(result.success).toBe(true)
-        if(result.success){
+        if (result.success) {
             expect(result.data).toHaveProperty('title', 'update Product')
         }
     })
@@ -40,7 +40,7 @@ describe('Edit Products', () => {
         })
 
         expect(result.success).toBe(false)
-        if(!result.success){
+        if (!result.success) {
             expect(result.error).toStrictEqual('Invalid fields')
         }
     })
@@ -55,7 +55,7 @@ describe('Edit Products', () => {
         })
 
         expect(result.success).toBe(false)
-        if(!result.success){
+        if (!result.success) {
             expect(result.error).toStrictEqual('Not found')
         }
     })
@@ -70,7 +70,7 @@ describe('Edit Products', () => {
         });
 
         expect(result.success).toBe(false)
-        if(!result.success){
+        if (!result.success) {
             expect(result.error).toStrictEqual('Invalid type for price, expected number')
         }
     });

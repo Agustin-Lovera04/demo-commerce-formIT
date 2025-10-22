@@ -22,7 +22,7 @@ describe('Products module - getProductById', () => {
         });
 
         expect(result.success).toBe(true)
-        if(result.success){
+        if (result.success) {
             expect(result.data).toStrictEqual({
                 id: 'prod',
                 title: 'Product',
@@ -30,7 +30,7 @@ describe('Products module - getProductById', () => {
                 stock: true,
             })
         }
-        
+
     });
 
     test('Should return error for invalid id', async () => {
@@ -40,7 +40,7 @@ describe('Products module - getProductById', () => {
         });
 
         expect(result.success).toBe(false)
-        if(!result.success){
+        if (!result.success) {
             expect(result.error).toStrictEqual('Not found');
         }
     });
@@ -52,7 +52,7 @@ describe('Products module - getProductById', () => {
         });
 
         expect(result.success).toBe(false)
-        if(!result.success){
+        if (!result.success) {
             expect(result.error).toStrictEqual('Missing id');
         }
     });

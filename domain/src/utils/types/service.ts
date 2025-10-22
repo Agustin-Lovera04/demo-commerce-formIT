@@ -7,7 +7,7 @@ export interface Service<TEntity extends Entity> {
     findById:(id: string) => Promise<Response<TEntity>>
     editOne: (id:string, payload: Partial<TEntity>) => Promise<Response<TEntity>>
     create: (payload: Omit<TEntity, 'id'>) => Promise<Response<TEntity>>
-    deleteOne: (id: string) => Promise<Response<TEntity>>
+    deleteOne: (id: string) => Promise<Response<void>>
 }
 
 

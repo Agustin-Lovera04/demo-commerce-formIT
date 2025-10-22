@@ -19,7 +19,7 @@ describe('Products module - getAllProducts', () => {
         const result = await getAllProducts({ dependencies: productsService });
 
         expect(result.success).toBe(true)
-        if(result.success){
+        if (result.success) {
             expect(Array.isArray(result.data)).toBe(true);
             expect(result.data).toEqual(
                 expect.arrayContaining([
@@ -37,9 +37,9 @@ describe('Products module - getAllProducts', () => {
     test('Should return empty array if no products exist', async () => {
         const emptyService = new ProductsServiceMock([]);
         const result = await getAllProducts({ dependencies: emptyService });
-        
+
         expect(result.success).toBe(true)
-        if(result.success){
+        if (result.success) {
             expect(result.data).toStrictEqual([]);
         }
     });

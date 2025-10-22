@@ -32,11 +32,11 @@ export class BaseServiceMock<TEntity extends Entity> {
     return { success: true, data: this.items[index] };
   }
 
-  async deleteOne(id: string): Promise<Response<TEntity>> {
+  async deleteOne(id: string): Promise<Response<void>> {
     const index = this.items.findIndex(i => i.id === id);
     if (index === -1) return { success: false, error: "Not found" };
 
     const [deleted] = this.items.splice(index, 1);
-    return { success: true, data: deleted as TEntity };
+    return { success: true, data:  undefined};
   }
 }
