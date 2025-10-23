@@ -35,6 +35,14 @@ export async function registerUser({ dependencies, payload }: registerUserData):
     if(cart.data.id){
         payload.cartId = cart.data.id
     }
+
+    const hashPassword = await dependencies.authenticationService.hashPassword(password)
+    if(!hashPassword.success) return { success: false, error: hashPassword.error}
+
+    if(hashPassword.success){
+        payload.password = hashPassword.data
+    }
+
     const createUser = await dependencies.authenticationService.create(payload)
     if (!createUser.success) {
         return { success: false, error: createUser.error }

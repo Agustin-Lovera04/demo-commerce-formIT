@@ -12,7 +12,7 @@ router.post("/register", async (req: Request, res: Response) => {
       dependencies: { authenticationService: authService, cartService },
       payload: req.body,
     });
-    
+
     if (!result.success) {
       return res.status(400).json({ error: result.error });
     }
@@ -34,10 +34,10 @@ router.post("/login", async (req: Request, res: Response) => {
       return res.status(400).json({ error: result.error });
     }
 
-    if( !result.data) {
-      return res.status(404).json({error: 'Internal server error'});
+    if (!result.data) {
+      return res.status(404).json({ error: 'Internal server error' });
     }
-    
+
     res.cookie("token", result.data, {
       httpOnly: true,
       sameSite: "strict",
@@ -50,5 +50,19 @@ router.post("/login", async (req: Request, res: Response) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 });
+
+router.get('/logout', async (req: Request, res: Response) => {
+  try {
+    res.clearCookie('token', {
+      httpOnly: true,
+      sameSite: 'strict',
+    });
+
+    return res.status(200).json({ ok: 'Session closed' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+})
 
 export default router;

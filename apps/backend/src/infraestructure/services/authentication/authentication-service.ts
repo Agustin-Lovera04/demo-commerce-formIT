@@ -1,4 +1,4 @@
-import { authenticationService, IUser, Response, config } from "../../../../../../domain/dist/index.js";
+import { authenticationService, IUser, Response, config, comparePassword, hashPassword } from "../../../../../../domain/dist/index.js";
 import { UserModel } from "../../../models/user-model.js";
 import jwt from "jsonwebtoken";
 
@@ -49,11 +49,18 @@ export class AuthenticationService implements authenticationService {
         return { success: true, data: true };
     }
 
-    async validPassword(password: string, user: IUser): Promise<Response<IUser>> {
-        if (password !== user.password) {
+    async validPassword(password: string, userPassword: string): Promise<Response<boolean>> {
+        const valid = await comparePassword(password, userPassword)
+        if (!valid) {
             return { success: false, error: "Invalid password" };
         }
-        return { success: true, data: user };
+        return { success: true, data: true };
+    }
+
+    async hashPassword(password: string): Promise<Response<string>>{
+        const hashed = await hashPassword(password)
+        if(!hashed)return{success: false, error: 'Unexpected error in hash password'}
+        return {success: true, data: hashed}
     }
 
     async generateTokenUser(dataUser: Omit<IUser, "password">): Promise<Response<string>> {

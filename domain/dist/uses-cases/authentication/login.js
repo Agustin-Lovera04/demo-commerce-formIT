@@ -10,11 +10,12 @@ async function loginUser({ dependencies, payload }) {
     if (!existUserInDB.success || existUserInDB.data == undefined) {
         return { success: false, error: 'Invalid credentials' };
     }
-    let validPassword = await dependencies.authenticationService.validPassword(password, existUserInDB.data);
+    let validPassword = await dependencies.authenticationService.validPassword(password, existUserInDB.data.password);
     if (!validPassword.success) {
         return { success: false, error: 'Invalid credentials' };
     }
-    const token = await dependencies.authenticationService.generateTokenUser(existUserInDB.data);
+    const userSafeField = existUserInDB.data;
+    const token = await dependencies.authenticationService.generateTokenUser(userSafeField);
     if (!token.success || token.data == undefined) {
         return { success: false, error: 'Internal error in login process' };
     }

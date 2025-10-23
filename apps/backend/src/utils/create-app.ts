@@ -3,11 +3,13 @@ import { Request, Response } from "express";
 import { router as authRouter } from "../routes/auth-router";
 import { router as productsRouter } from "../routes/products-router";
 import { router as cartRouter } from "../routes/cart-router"
+import cookieParser from "cookie-parser";
 
 export function createApp(db: any) {
   const app = express();
 
   app.use(express.json());
+  app.use(cookieParser())
 
   app.use('/cart', cartRouter)
   app.use('/products', productsRouter)

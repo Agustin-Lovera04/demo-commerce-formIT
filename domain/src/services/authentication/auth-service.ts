@@ -5,6 +5,7 @@ import { Service } from "../../utils/index";
 export interface authenticationService extends Service<IUser>{
     findUserByEmail: (email: string) => Promise<Response<IUser>>
     validEmail: (email: string) => Promise<Response<boolean>>
-    validPassword: (password: string, user: IUser) => Promise<Response<IUser>>
+    hashPassword: (password: string)=> Promise<Response<string>>
+    validPassword: (password: string, userPassword: string) => Promise<Response<boolean>>
     generateTokenUser: (dataUser: Omit<IUser, 'password'>) => Promise<Response<string>>
 }

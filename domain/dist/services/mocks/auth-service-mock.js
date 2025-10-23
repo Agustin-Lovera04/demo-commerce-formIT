@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthenticationServiceMock = void 0;
+const index_1 = require("../../utils/index");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const base_service_mock_1 = require("./base-service-mock");
 const config_1 = require("../../config/config");
@@ -25,15 +26,22 @@ class AuthenticationServiceMock extends base_service_mock_1.BaseServiceMock {
             return { success: false, error: 'Invalid email' };
         return { success: true, data: true };
     }
-    async validPassword(password, existUserInDB) {
-        if (password !== existUserInDB.password) {
+    async validPassword(password, userPassword) {
+        const compare = await (0, index_1.comparePassword)(password, userPassword);
+        if (!compare) {
             return { success: false, error: "Invalid password" };
         }
-        return { success: true, data: existUserInDB };
+        return { success: true, data: true };
     }
     async generateTokenUser(dataUser) {
         const token = jsonwebtoken_1.default.sign(dataUser, config_1.config.SECRET_KEY_JWT, { expiresIn: '1h' });
         return { success: true, data: token };
+    }
+    async hashPassword(password) {
+        const hashed = await (0, index_1.hashPassword)(password);
+        if (!index_1.hashPassword)
+            return { success: false, error: 'Unexpected error in hash password' };
+        return { success: true, data: hashed };
     }
 }
 exports.AuthenticationServiceMock = AuthenticationServiceMock;

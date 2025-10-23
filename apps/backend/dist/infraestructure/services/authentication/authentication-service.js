@@ -55,11 +55,18 @@ class AuthenticationService {
             return { success: false, error: "Invalid email" };
         return { success: true, data: true };
     }
-    async validPassword(password, user) {
-        if (password !== user.password) {
+    async validPassword(password, userPassword) {
+        const valid = await (0, index_js_1.comparePassword)(password, userPassword);
+        if (!valid) {
             return { success: false, error: "Invalid password" };
         }
-        return { success: true, data: user };
+        return { success: true, data: true };
+    }
+    async hashPassword(password) {
+        const hashed = await (0, index_js_1.hashPassword)(password);
+        if (!hashed)
+            return { success: false, error: 'Unexpected error in hash password' };
+        return { success: true, data: hashed };
     }
     async generateTokenUser(dataUser) {
         try {

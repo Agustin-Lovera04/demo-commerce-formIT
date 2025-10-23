@@ -29,7 +29,7 @@ exports.router.get("/getCart/:id", jwtValidate_1.jwtValidate, (0, accessControl_
         return res.status(404).json({ error: cart.error });
     return res.status(200).json({ cart: cart.data });
 });
-exports.router.post("/", async (req, res) => {
+exports.router.post("/", jwtValidate_1.jwtValidate, (0, accessControl_1.accessControl)(['PUBLIC']), async (req, res) => {
     const newCart = await (0, dist_1.createCart)({
         dependencies: cartService
     });
@@ -49,7 +49,7 @@ exports.router.delete("/:id", jwtValidate_1.jwtValidate, (0, accessControl_1.acc
 });
 exports.router.post("/addProduct/:pid", jwtValidate_1.jwtValidate, (0, accessControl_1.accessControl)(['CLIENT']), async (req, res) => {
     const { cartId } = req.user;
-    if (cartId || !req.params.pid) {
+    if (!cartId || !req.params.pid) {
         res.setHeader('Content-Type', 'application/json');
         return res.status(404).json({ error: 'Missing cid or pid' });
     }

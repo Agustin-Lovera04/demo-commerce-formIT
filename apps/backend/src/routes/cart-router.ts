@@ -51,11 +51,12 @@ router.delete("/:id", jwtValidate, accessControl(['ADMIN']), async (req: Request
 router.post("/addProduct/:pid", jwtValidate, accessControl(['CLIENT']), async (req: Request, res: Response) => {
     const { cartId } = (req as any).user;
 
-    if (cartId || !req.params.pid) {
+    if (!cartId || !req.params.pid) {
         res.setHeader('Content-Type', 'application/json');
         return res.status(404).json({ error: 'Missing cid or pid' });
     }
     const added = await addProductToCart({ dependencies: { cartService, productService }, payload: { cid: cartId, pid: req.params.pid } });
+
     if (!added.success) return res.status(400).json({ error: added.error });
     return res.status(200).json({ ok: added.data });
 });

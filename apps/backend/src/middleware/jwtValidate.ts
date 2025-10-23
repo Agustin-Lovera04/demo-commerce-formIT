@@ -9,7 +9,7 @@ export const jwtValidate = (req: Request, res: Response, next: NextFunction) => 
     const token = req.cookies?.token;
 
     if (!token) {
-      return res.status(401).json({ error: "Auth token not found." });
+      return res.status(401).json({ error: "You must log in." });
     }
 
     const decoded = jwt.verify(token, JWT_SECRET);

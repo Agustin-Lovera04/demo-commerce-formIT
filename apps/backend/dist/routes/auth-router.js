@@ -47,5 +47,18 @@ exports.router.post("/login", async (req, res) => {
         return res.status(500).json({ error: "Internal server error" });
     }
 });
+exports.router.get('/logout', async (req, res) => {
+    try {
+        res.clearCookie('token', {
+            httpOnly: true,
+            sameSite: 'strict',
+        });
+        return res.status(200).json({ ok: 'Session closed' });
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+});
 exports.default = exports.router;
 //# sourceMappingURL=auth-router.js.map

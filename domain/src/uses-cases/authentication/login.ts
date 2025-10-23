@@ -22,13 +22,15 @@ export async function loginUser({ dependencies, payload }: loginUserData): Promi
         return {success: false, error: 'Invalid credentials'}
     }
 
-    let validPassword = await dependencies.authenticationService.validPassword(password, existUserInDB.data)
+    let validPassword = await dependencies.authenticationService.validPassword(password, existUserInDB.data.password)
 
     if (!validPassword.success) {
         return {success: false, error: 'Invalid credentials'}
     }
 
-    const token = await dependencies.authenticationService.generateTokenUser(existUserInDB.data)
+    const userSafeField: Omit<IUser, 'password'> = existUserInDB.data
+
+    const token = await dependencies.authenticationService.generateTokenUser(userSafeField)
 
     if (!token.success || token.data == undefined) {
         return {success: false, error: 'Internal error in login process'}

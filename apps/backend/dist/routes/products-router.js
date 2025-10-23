@@ -4,9 +4,11 @@ exports.router = void 0;
 const express_1 = require("express");
 const products_service_1 = require("../infraestructure/services/products/products-service");
 const dist_1 = require("../../../../domain/dist");
+const accessControl_1 = require("../middleware/accessControl");
+const jwtValidate_1 = require("../middleware/jwtValidate");
 exports.router = (0, express_1.Router)();
 const productsService = new products_service_1.ProductsServiceReal();
-exports.router.get("/getAllProducts", async (req, res) => {
+exports.router.get("/getAllProducts", jwtValidate_1.jwtValidate, (0, accessControl_1.accessControl)(['CLIENT', 'ADMIN']), async (req, res) => {
     try {
         const result = await (0, dist_1.getAllProducts)({
             dependencies: productsService,
@@ -20,7 +22,7 @@ exports.router.get("/getAllProducts", async (req, res) => {
         return res.status(500).json({ error: "Internal server error" });
     }
 });
-exports.router.get("/getProduct/:id", async (req, res) => {
+exports.router.get("/getProduct/:id", jwtValidate_1.jwtValidate, (0, accessControl_1.accessControl)(['CLIENT', 'ADMIN']), async (req, res) => {
     try {
         const { id } = req.params;
         if (!id) {
@@ -40,7 +42,7 @@ exports.router.get("/getProduct/:id", async (req, res) => {
         return res.status(500).json({ error: "Internal server error" });
     }
 });
-exports.router.post("/createProduct", async (req, res) => {
+exports.router.post("/createProduct", jwtValidate_1.jwtValidate, (0, accessControl_1.accessControl)(['ADMIN']), async (req, res) => {
     try {
         const result = await (0, dist_1.createProduct)({
             dependencies: productsService,
@@ -55,7 +57,7 @@ exports.router.post("/createProduct", async (req, res) => {
         return res.status(500).json({ error: "Internal server error" });
     }
 });
-exports.router.put("/editProduct/:id", async (req, res) => {
+exports.router.put("/editProduct/:id", jwtValidate_1.jwtValidate, (0, accessControl_1.accessControl)(['ADMIN']), async (req, res) => {
     try {
         const { id } = req.params;
         if (!id) {
@@ -75,7 +77,7 @@ exports.router.put("/editProduct/:id", async (req, res) => {
         return res.status(500).json({ error: "Internal server error" });
     }
 });
-exports.router.delete("/deleteProduct/:id", async (req, res) => {
+exports.router.delete("/deleteProduct/:id", jwtValidate_1.jwtValidate, (0, accessControl_1.accessControl)(['ADMIN']), async (req, res) => {
     try {
         const { id } = req.params;
         if (!id) {

@@ -1,6 +1,6 @@
 import { IUser } from "../../entities";
 import { authenticationService } from "../authentication/auth-service";
-import { Response } from "../../utils/index";
+import { comparePassword, hashPassword, Response } from "../../utils/index";
 import jwt from 'jsonwebtoken';
 import { BaseServiceMock } from "./base-service-mock";
 import { config } from "../../config/config";
@@ -25,11 +25,12 @@ export class AuthenticationServiceMock extends BaseServiceMock<IUser> implements
     }
 
 
-    async validPassword(password: string, existUserInDB: IUser): Promise<Response<IUser>> {
-        if (password !== existUserInDB.password) {
+    async validPassword(password: string, userPassword: string): Promise<Response<boolean>> {
+        const compare = await comparePassword(password, userPassword)
+        if (!compare) {
             return { success: false, error: "Invalid password" };
         }
-        return { success: true, data: existUserInDB };
+        return { success: true, data: true };
     }
 
     async generateTokenUser(dataUser: Omit<IUser, "password">): Promise<Response<string>> {
@@ -39,5 +40,12 @@ export class AuthenticationServiceMock extends BaseServiceMock<IUser> implements
             { expiresIn: '1h' }
         );
         return { success: true, data: token };
+    }
+
+    async hashPassword(password: string): Promise<Response<string>>{
+        const hashed = await hashPassword(password)
+        if(!hashPassword)return {success:false, error: 'Unexpected error in hash password'}
+
+        return { success: true, data: hashed}
     }
 }
