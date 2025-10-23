@@ -61,16 +61,16 @@ router.post("/addProduct/:pid", jwtValidate, accessControl(['CLIENT']), async (r
     return res.status(200).json({ ok: 'Product added to cart' });
 });
 
-router.delete("/:cid/product/:pid", jwtValidate, accessControl(['CLIENT']), async (req: Request, res: Response) => {
+router.delete("/deleteProduct/:pid", jwtValidate, accessControl(['CLIENT']), async (req: Request, res: Response) => {
     const { cartId } = (req as any).user;
 
-    if (cartId || !req.params.pid) {
+    if (!cartId || !req.params.pid) {
         res.setHeader('Content-Type', 'application/json');
         return res.status(404).json({ error: 'Missing cid or pid' });
     }
     const deleted = await deleteProductInCart({ dependencies: { cartService, productService }, payload: { cid: cartId, pid: req.params.pid } });
     if (!deleted.success) return res.status(400).json({ error: deleted.error });
-    res.json(deleted.data);
+    return res.status(200).json({ok: deleted.data});
 });
 
 export default router;

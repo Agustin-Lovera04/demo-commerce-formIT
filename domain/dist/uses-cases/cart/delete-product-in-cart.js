@@ -13,7 +13,9 @@ async function deleteProductInCart({ dependencies, payload }) {
         const existProduct = await productService.findById(pid);
         if (!existProduct.success)
             return { success: false, error: existProduct.error };
+        console.log('exist cart', existCart);
         const deleteProductInCart = await cartService.deleteProductInCart(cid, pid);
+        console.log('delete prod', deleteProductInCart);
         if (!deleteProductInCart.success)
             return { success: false, error: deleteProductInCart.error };
         if (deleteProductInCart.data === undefined)

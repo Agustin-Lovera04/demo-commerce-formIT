@@ -114,7 +114,7 @@ export class CartServiceReal implements CartService {
 
         const cart = cartResult.data;
         cart.products = cart.products.filter((p) => p.product !== pid);
-
+      
         const { products, total } = calculateCartTotals(cart.products);
         cart.products = products;
         cart.total = total;

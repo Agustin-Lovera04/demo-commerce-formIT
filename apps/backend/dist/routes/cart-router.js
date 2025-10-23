@@ -58,16 +58,16 @@ exports.router.post("/addProduct/:pid", jwtValidate_1.jwtValidate, (0, accessCon
         return res.status(400).json({ error: added.error });
     return res.status(200).json({ ok: 'Product added to cart' });
 });
-exports.router.delete("/:cid/product/:pid", jwtValidate_1.jwtValidate, (0, accessControl_1.accessControl)(['CLIENT']), async (req, res) => {
+exports.router.delete("/deleteProduct/:pid", jwtValidate_1.jwtValidate, (0, accessControl_1.accessControl)(['CLIENT']), async (req, res) => {
     const { cartId } = req.user;
-    if (cartId || !req.params.pid) {
+    if (!cartId || !req.params.pid) {
         res.setHeader('Content-Type', 'application/json');
         return res.status(404).json({ error: 'Missing cid or pid' });
     }
     const deleted = await (0, dist_1.deleteProductInCart)({ dependencies: { cartService, productService }, payload: { cid: cartId, pid: req.params.pid } });
     if (!deleted.success)
         return res.status(400).json({ error: deleted.error });
-    res.json(deleted.data);
+    return res.status(200).json({ ok: deleted.data });
 });
 exports.default = exports.router;
 //# sourceMappingURL=cart-router.js.map

@@ -12,9 +12,8 @@ export async function deleteProductInCart({ dependencies, payload }: ArgumentsPr
 
         const existProduct = await productService.findById(pid)
         if (!existProduct.success) return { success: false, error: existProduct.error }
-
+       
         const deleteProductInCart = await cartService.deleteProductInCart(cid, pid)
-
         if (!deleteProductInCart.success) return { success: false, error: deleteProductInCart.error }
 
         if (deleteProductInCart.data === undefined) return { success: false, error: 'Unexpected error in delete product to cart' }
