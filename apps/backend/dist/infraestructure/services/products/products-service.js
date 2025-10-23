@@ -4,7 +4,7 @@ exports.ProductsServiceReal = void 0;
 const products_model_1 = require("../../../models/products-model");
 function mapProduct(product) {
     return {
-        id: product._id?.toString(), // ← MAPEO ESENCIAL
+        id: product._id?.toString(),
         title: product.title,
         price: product.price,
         stock: product.stock,
@@ -14,7 +14,7 @@ class ProductsServiceReal {
     async findAll() {
         try {
             const products = await products_model_1.ProductModel.find().lean();
-            const mappedProducts = products.map(mapProduct); // ← APLICAR MAPEO
+            const mappedProducts = products.map(mapProduct);
             return { success: true, data: mappedProducts };
         }
         catch (error) {
@@ -26,7 +26,7 @@ class ProductsServiceReal {
             const product = await products_model_1.ProductModel.findById(id).lean();
             if (!product)
                 return { success: false, error: "Product not found" };
-            const mappedProduct = mapProduct(product); // ← APLICAR MAPEO
+            const mappedProduct = mapProduct(product);
             return { success: true, data: mappedProduct };
         }
         catch (error) {
@@ -36,7 +36,7 @@ class ProductsServiceReal {
     async create(dataUser) {
         try {
             const newUser = await products_model_1.ProductModel.create(dataUser);
-            const mappedProduct = mapProduct(newUser); // ← APLICAR MAPEO
+            const mappedProduct = mapProduct(newUser);
             return { success: true, data: mappedProduct };
         }
         catch (error) {
@@ -48,7 +48,7 @@ class ProductsServiceReal {
             const updatedProduct = await products_model_1.ProductModel.findByIdAndUpdate(id, payload, { new: true }).lean();
             if (!updatedProduct)
                 return { success: false, error: "Product not found" };
-            const mappedProduct = mapProduct(updatedProduct); // ← APLICAR MAPEO
+            const mappedProduct = mapProduct(updatedProduct);
             return { success: true, data: mappedProduct };
         }
         catch (error) {

@@ -21,7 +21,6 @@ exports.router.post('/genOrder', jwtValidate_1.jwtValidate, (0, accessControl_1.
             dependencies: { buyOrderService, cartService },
             payload: { id: cartId }
         });
-        console.log(genOrder);
         if (!genOrder.success) {
             return res.status(404).json({ error: genOrder.error });
         }

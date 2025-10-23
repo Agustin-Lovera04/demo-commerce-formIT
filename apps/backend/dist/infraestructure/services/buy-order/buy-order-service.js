@@ -17,13 +17,10 @@ class BuyOrderServiceReal {
                 products: cart.products,
                 total: cart.total
             };
-            console.log('oderData', orderData);
             const savedOrder = await buy_order_1.OrderModel.create(orderData);
-            console.log('saveOrder', savedOrder);
             return { success: true, data: mapOrder(savedOrder) };
         }
         catch (error) {
-            console.log(error.message);
             return {
                 success: false,
                 error: "Error generating order"
