@@ -2,11 +2,20 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductsServiceReal = void 0;
 const products_model_1 = require("../../../models/products-model");
+function mapProduct(product) {
+    return {
+        id: product._id?.toString(), // ← MAPEO ESENCIAL
+        title: product.title,
+        price: product.price,
+        stock: product.stock,
+    };
+}
 class ProductsServiceReal {
     async findAll() {
         try {
             const products = await products_model_1.ProductModel.find().lean();
-            return { success: true, data: products };
+            const mappedProducts = products.map(mapProduct); // ← APLICAR MAPEO
+            return { success: true, data: mappedProducts };
         }
         catch (error) {
             return { success: false, error: "Error fetching product" };
@@ -17,7 +26,8 @@ class ProductsServiceReal {
             const product = await products_model_1.ProductModel.findById(id).lean();
             if (!product)
                 return { success: false, error: "Product not found" };
-            return { success: true, data: product };
+            const mappedProduct = mapProduct(product); // ← APLICAR MAPEO
+            return { success: true, data: mappedProduct };
         }
         catch (error) {
             return { success: false, error: "Error fetching product" };
@@ -26,7 +36,8 @@ class ProductsServiceReal {
     async create(dataUser) {
         try {
             const newUser = await products_model_1.ProductModel.create(dataUser);
-            return { success: true, data: newUser.toObject() };
+            const mappedProduct = mapProduct(newUser); // ← APLICAR MAPEO
+            return { success: true, data: mappedProduct };
         }
         catch (error) {
             return { success: false, error: "Error creating product" };
@@ -37,7 +48,8 @@ class ProductsServiceReal {
             const updatedProduct = await products_model_1.ProductModel.findByIdAndUpdate(id, payload, { new: true }).lean();
             if (!updatedProduct)
                 return { success: false, error: "Product not found" };
-            return { success: true, data: updatedProduct };
+            const mappedProduct = mapProduct(updatedProduct); // ← APLICAR MAPEO
+            return { success: true, data: mappedProduct };
         }
         catch (error) {
             return { success: false, error: "Error editing product" };

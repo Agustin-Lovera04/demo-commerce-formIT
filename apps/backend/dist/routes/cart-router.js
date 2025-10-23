@@ -56,7 +56,7 @@ exports.router.post("/addProduct/:pid", jwtValidate_1.jwtValidate, (0, accessCon
     const added = await (0, dist_1.addProductToCart)({ dependencies: { cartService, productService }, payload: { cid: cartId, pid: req.params.pid } });
     if (!added.success)
         return res.status(400).json({ error: added.error });
-    return res.status(200).json({ ok: added.data });
+    return res.status(200).json({ ok: 'Product added to cart' });
 });
 exports.router.delete("/:cid/product/:pid", jwtValidate_1.jwtValidate, (0, accessControl_1.accessControl)(['CLIENT']), async (req, res) => {
     const { cartId } = req.user;

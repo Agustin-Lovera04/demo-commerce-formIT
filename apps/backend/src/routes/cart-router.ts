@@ -58,7 +58,7 @@ router.post("/addProduct/:pid", jwtValidate, accessControl(['CLIENT']), async (r
     const added = await addProductToCart({ dependencies: { cartService, productService }, payload: { cid: cartId, pid: req.params.pid } });
 
     if (!added.success) return res.status(400).json({ error: added.error });
-    return res.status(200).json({ ok: added.data });
+    return res.status(200).json({ ok: 'Product added to cart' });
 });
 
 router.delete("/:cid/product/:pid", jwtValidate, accessControl(['CLIENT']), async (req: Request, res: Response) => {

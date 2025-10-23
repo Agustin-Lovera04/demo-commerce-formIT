@@ -8,11 +8,13 @@ const express_1 = __importDefault(require("express"));
 const auth_router_1 = require("../routes/auth-router");
 const products_router_1 = require("../routes/products-router");
 const cart_router_1 = require("../routes/cart-router");
+const buy_order_router_1 = require("../routes/buy-order-router");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 function createApp(db) {
     const app = (0, express_1.default)();
     app.use(express_1.default.json());
     app.use((0, cookie_parser_1.default)());
+    app.use('/buyOrder', buy_order_router_1.router);
     app.use('/cart', cart_router_1.router);
     app.use('/products', products_router_1.router);
     app.use('/auth', auth_router_1.router);

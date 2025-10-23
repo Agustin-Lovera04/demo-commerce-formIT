@@ -17,7 +17,6 @@ export async function genBuyOrder({ dependencies, payload }: ArgumentsFunctionOr
 
     const existCart = await cartService.findById(id)
     if (!existCart.success) return { success: false, error: existCart.error }
-
     if (existCart.data === undefined) return { success: false, error: 'Unexpected error in get Cart' }
 
     const order = await buyOrderService.genBuyOrder(existCart.data)
@@ -25,7 +24,7 @@ export async function genBuyOrder({ dependencies, payload }: ArgumentsFunctionOr
 
     if (order.data === undefined) return { success: false, error: 'Unexpected error in generate buy order' }
 
-    const cleanCart = await cartService.editOne(id, { products: [] })
+    const cleanCart = await cartService.editOne(id, { products: [], total: 0 })
     if (!cleanCart.success) return { success: false, error: cleanCart.error }
 
     return { success: true, data: order.data }

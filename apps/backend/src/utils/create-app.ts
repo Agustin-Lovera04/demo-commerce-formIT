@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { router as authRouter } from "../routes/auth-router";
 import { router as productsRouter } from "../routes/products-router";
 import { router as cartRouter } from "../routes/cart-router"
+import {router as buyOrderRouter} from '../routes/buy-order-router'
 import cookieParser from "cookie-parser";
 
 export function createApp(db: any) {
@@ -11,6 +12,7 @@ export function createApp(db: any) {
   app.use(express.json());
   app.use(cookieParser())
 
+  app.use('/buyOrder', buyOrderRouter)
   app.use('/cart', cartRouter)
   app.use('/products', productsRouter)
   app.use('/auth', authRouter)

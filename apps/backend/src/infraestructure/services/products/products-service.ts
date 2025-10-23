@@ -1,12 +1,22 @@
 import { ProductModel } from "../../../models/products-model";
 import { ProductsService, IProduct, Response} from "../../../../../../domain/dist/index.js";
 
-export class ProductsServiceReal implements ProductsService {
+function mapProduct(product: any): IProduct {
+  return {
+    id: product._id?.toString(), 
+    title: product.title,
+    price: product.price,
+    stock: product.stock,
+  };
+}
 
+export class ProductsServiceReal implements ProductsService {
+    
     async findAll(): Promise<Response<IProduct[]>> {
         try {
             const products = await ProductModel.find().lean();
-            return { success: true, data: products as IProduct[] };
+            const mappedProducts = products.map(mapProduct); 
+            return { success: true, data: mappedProducts };
         } catch (error) {
             return { success: false, error: "Error fetching product" };
         }
@@ -16,15 +26,18 @@ export class ProductsServiceReal implements ProductsService {
         try {
             const product = await ProductModel.findById(id).lean();
             if (!product) return { success: false, error: "Product not found" };
-            return { success: true, data: product as IProduct };
+            const mappedProduct = mapProduct(product); 
+            return { success: true, data: mappedProduct };
         } catch (error) {
             return { success: false, error: "Error fetching product" };
         }
     }
+
     async create(dataUser: Omit<IProduct, "id">): Promise<Response<IProduct>> {
         try {
             const newUser = await ProductModel.create(dataUser);
-            return { success: true, data: newUser.toObject() as IProduct };
+            const mappedProduct = mapProduct(newUser); 
+            return { success: true, data: mappedProduct };
         } catch (error) {
             return { success: false, error: "Error creating product" };
         }
@@ -34,7 +47,8 @@ export class ProductsServiceReal implements ProductsService {
         try {
             const updatedProduct = await ProductModel.findByIdAndUpdate(id, payload, { new: true }).lean();
             if (!updatedProduct) return { success: false, error: "Product not found" };
-            return { success: true, data: updatedProduct as IProduct };
+            const mappedProduct = mapProduct(updatedProduct); 
+            return { success: true, data: mappedProduct };
         } catch (error) {
             return { success: false, error: "Error editing product" };
         }
@@ -87,19 +101,17 @@ export class ProductsServiceReal implements ProductsService {
         }
     }
 
+    async findProductByTitle(title: string): Promise<Response<boolean>> {
+        try {
+            const product = await ProductModel.findOne({ title }).lean();
 
-async findProductByTitle(title: string): Promise<Response<boolean>> {
-    try {
-        const product = await ProductModel.findOne({ title }).lean();
+            if (!product) {
+                return { success: true, data: false };
+            }
 
-        if (!product) {
-            return { success: true, data: false };
+            return { success: true, data: true };
+        } catch (error) {
+            return { success: false, error: 'Unexpected error while finding product by title' };
         }
-
-        return { success: true, data: true };
-    } catch (error) {
-        return { success: false, error: 'Unexpected error while finding product by title' };
     }
-}
-
 }

@@ -106,26 +106,26 @@ export class CartServiceReal implements CartService {
         }
     }
 
-    async deleteProductInCart(cid: string, pid: string): Promise<Response<ICart>> {
-        try {
-            const cartResult = await this.findById(cid);
-            if (!cartResult.success || !cartResult.data)
-                return { success: false, error: "Cart not found" };
+    async deleteProductInCart(cid: string, pid: string): Promise < Response < ICart >> {
+    try {
+        const cartResult = await this.findById(cid);
+        if(!cartResult.success || !cartResult.data)
+        return { success: false, error: "Cart not found" };
 
-            const cart = cartResult.data;
-            cart.products = cart.products.filter((p) => p.product !== pid);
+        const cart = cartResult.data;
+        cart.products = cart.products.filter((p) => p.product !== pid);
 
-            const { products, total } = calculateCartTotals(cart.products);
-            cart.products = products;
-            cart.total = total;
+        const { products, total } = calculateCartTotals(cart.products);
+        cart.products = products;
+        cart.total = total;
 
-            const updateResult = await this.editOne(cid, cart);
-            if (!updateResult.success)
-                return { success: false, error: "Error updating cart" };
+        const updateResult = await this.editOne(cid, cart);
+        if(!updateResult.success)
+        return { success: false, error: "Error updating cart" };
 
-            return { success: true, data: mapCart(updateResult.data) };
-        } catch (error) {
-            return { success: false, error: "Error deleting product from cart" };
-        }
+        return { success: true, data: mapCart(updateResult.data) };
+    } catch(error) {
+        return { success: false, error: "Error deleting product from cart" };
     }
+}
 }

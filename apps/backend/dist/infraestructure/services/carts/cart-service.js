@@ -80,6 +80,8 @@ class CartServiceReal {
                 return { success: false, error: "Cart not found" };
             const cart = cartResult.data;
             const index = cart.products.findIndex((p) => p.product === product.id);
+            console.log('Product being added:', product); // ← Agrega esto
+            console.log('Product ID:', product.id);
             if (index === -1) {
                 cart.products.push({
                     product: product.id,
