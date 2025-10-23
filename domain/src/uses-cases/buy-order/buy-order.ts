@@ -11,21 +11,29 @@ interface ArgumentsFunctionOrder {
     payload: { id: string }
 }
 export async function genBuyOrder({ dependencies, payload }: ArgumentsFunctionOrder): Promise<Response<IOrder>> {
-    const { buyOrderService, cartService } = dependencies
-    const { id } = payload
-    if (!id) return { success: false, error: 'Missing id' }
+    try {
 
-    const existCart = await cartService.findById(id)
-    if (!existCart.success) return { success: false, error: existCart.error }
-    if (existCart.data === undefined) return { success: false, error: 'Unexpected error in get Cart' }
+        const { buyOrderService, cartService } = dependencies
+        const { id } = payload
+        if (!id) return { success: false, error: 'Missing id' }
 
-    const order = await buyOrderService.genBuyOrder(existCart.data)
-    if (!order.success) return { success: false, error: order.error }
+        const existCart = await cartService.findById(id)
+        if (!existCart.success) return { success: false, error: existCart.error }
+        if (existCart.data === undefined) return { success: false, error: 'Unexpected error in get Cart' }
 
-    if (order.data === undefined) return { success: false, error: 'Unexpected error in generate buy order' }
+        const order = await buyOrderService.genBuyOrder(existCart.data)
+        if (!order.success) return { success: false, error: order.error }
 
-    const cleanCart = await cartService.editOne(id, { products: [], total: 0 })
-    if (!cleanCart.success) return { success: false, error: cleanCart.error }
+        if (order.data === undefined) return { success: false, error: 'Unexpected error in generate buy order' }
 
-    return { success: true, data: order.data }
+        const cleanCart = await cartService.editOne(id, { products: [], total: 0 })
+        if (!cleanCart.success) return { success: false, error: cleanCart.error }
+
+        return { success: true, data: order.data }
+    } catch (error) {
+        return {
+            success: false,
+            error: 'Internal server error'
+        };
+    }
 }

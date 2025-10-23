@@ -1,25 +1,31 @@
-import { ICart } from "../../entities";
 import { Response } from "../../utils";
 import { ArgumentsProductToCart } from "../../utils/types/arguments-function-ProductToCart";
 
 export async function addProductToCart({ dependencies, payload }: ArgumentsProductToCart): Promise<Response<void>> {
-    const { cartService, productService } = dependencies
-    const { cid, pid } = payload
-    if (!cid || !pid) return { success: false, error: 'Missing Cart id or Product Id' }
+    try {
+        const { cartService, productService } = dependencies
+        const { cid, pid } = payload
+        if (!cid || !pid) return { success: false, error: 'Missing Cart id or Product Id' }
 
-    const existCart = await cartService.findById(cid)
-    if (!existCart.success) return { success: false, error: existCart.error }
+        const existCart = await cartService.findById(cid)
+        if (!existCart.success) return { success: false, error: existCart.error }
 
-    const existProduct = await productService.findById(pid)
-    if (!existProduct.success) return { success: false, error: existProduct.error }
+        const existProduct = await productService.findById(pid)
+        if (!existProduct.success) return { success: false, error: existProduct.error }
 
-    if (existProduct.data?.stock === false) return { success: false, error: 'Out of stock' }
+        if (existProduct.data?.stock === false) return { success: false, error: 'Out of stock' }
 
-    const addProductToCart = await cartService.addProductToCart(cid, existProduct.data)
+        const addProductToCart = await cartService.addProductToCart(cid, existProduct.data)
 
-    if (!addProductToCart.success) return { success: false, error: addProductToCart.error }
+        if (!addProductToCart.success) return { success: false, error: addProductToCart.error }
 
-    if (addProductToCart.data === undefined) return { success: false, error: 'Unexpected error in add product to cart' }
+        if (addProductToCart.data === undefined) return { success: false, error: 'Unexpected error in add product to cart' }
 
-    return { success: true, data: undefined }
+        return { success: true, data: undefined }
+    } catch (error) {
+        return {
+            success: false,
+            error: 'Internal server error'
+        };
+    }
 }

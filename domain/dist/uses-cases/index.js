@@ -18,5 +18,4 @@ __exportStar(require("./authentication/index.js"), exports);
 __exportStar(require("./buy-order/index.js"), exports);
 __exportStar(require("./cart/index.js"), exports);
 __exportStar(require("./products/index.js"), exports);
-__exportStar(require("./users/index.js"), exports);
 //# sourceMappingURL=index.js.map

@@ -1,23 +1,30 @@
-import { ICart } from '../../entities';
 import { Response } from '../../utils';
 import { ArgumentsProductToCart } from '../../utils/types/arguments-function-ProductToCart';
-export async function deleteProductInCart({dependencies, payload}: ArgumentsProductToCart): Promise<Response<void>>{
-    const {cartService, productService} = dependencies
-    const {cid , pid} = payload
-    if(!cid || !pid) return {success: false, error: 'Missing Cart id or Product Id'}
+export async function deleteProductInCart({ dependencies, payload }: ArgumentsProductToCart): Promise<Response<void>> {
+    try {
 
-    const existCart = await cartService.findById(cid)
-    if(!existCart.success) return {success: false, error: existCart.error}
+        const { cartService, productService } = dependencies
+        const { cid, pid } = payload
+        if (!cid || !pid) return { success: false, error: 'Missing Cart id or Product Id' }
 
-    const existProduct = await productService.findById(pid)
-    if(!existProduct.success) return {success: false, error: existProduct.error}
+        const existCart = await cartService.findById(cid)
+        if (!existCart.success) return { success: false, error: existCart.error }
 
-    const deleteProductInCart = await cartService.deleteProductInCart(cid, pid)
+        const existProduct = await productService.findById(pid)
+        if (!existProduct.success) return { success: false, error: existProduct.error }
 
-    if(!deleteProductInCart.success) return {success: false, error: deleteProductInCart.error}
+        const deleteProductInCart = await cartService.deleteProductInCart(cid, pid)
 
-    if(deleteProductInCart.data === undefined) return {success: false, error: 'Unexpected error in delete product to cart'}
+        if (!deleteProductInCart.success) return { success: false, error: deleteProductInCart.error }
 
-    return {success:true, data:undefined}
+        if (deleteProductInCart.data === undefined) return { success: false, error: 'Unexpected error in delete product to cart' }
+
+        return { success: true, data: undefined }
+    } catch (error) {
+        return {
+            success: false,
+            error: 'Internal server error'
+        };
+    }
 
 }
