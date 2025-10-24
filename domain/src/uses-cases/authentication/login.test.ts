@@ -2,15 +2,17 @@ import { describe, test, expect, beforeAll } from 'vitest'
 import { AuthenticationServiceMock } from '../../services/mocks/auth-service-mock'
 import { userMock } from "../../entities/mocks/user-mock";
 import { loginUser } from './login'
+import { hashPassword } from '../../utils';
 
 
 describe('Login User', () => {
 
     let authenticationService: AuthenticationServiceMock
 
-    beforeAll(()=>{
+    beforeAll(async ()=>{
+        const hashPasswordForTest = await hashPassword('Agustin')
         const initialUsers = [
-            userMock({email: 'agustin@gmail.com', password: 'Agustin'}),
+            userMock({email: 'agustin@gmail.com', password: hashPasswordForTest}),
             userMock()
         ]
 
@@ -29,7 +31,7 @@ describe('Login User', () => {
 
         expect(result.success).toBe(true)
         if(result.success){
-            expect(result.data).toHaveProperty('token')
+            expect(result.data).toBeTypeOf('string')
         }
     })
 

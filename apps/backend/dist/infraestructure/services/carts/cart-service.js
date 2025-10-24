@@ -110,10 +110,8 @@ class CartServiceReal {
             const cartResult = await this.findById(cid);
             if (!cartResult.success || !cartResult.data)
                 return { success: false, error: "Cart not found" };
-            console.log('pre', cartResult);
             const cart = cartResult.data;
             cart.products = cart.products.filter((p) => p.product !== pid);
-            console.log('post', cart);
             const { products, total } = (0, index_1.calculateCartTotals)(cart.products);
             cart.products = products;
             cart.total = total;

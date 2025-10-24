@@ -1,21 +1,21 @@
 import { ProductModel } from "../../../models/products-model";
-import { ProductsService, IProduct, Response} from "../../../../../../domain/dist/index.js";
+import { ProductsService, IProduct, Response } from "../../../../../../domain/dist/index.js";
 
 function mapProduct(product: any): IProduct {
-  return {
-    id: product._id?.toString(), 
-    title: product.title,
-    price: product.price,
-    stock: product.stock,
-  };
+    return {
+        id: product._id?.toString(),
+        title: product.title,
+        price: product.price,
+        stock: product.stock,
+    };
 }
 
 export class ProductsServiceReal implements ProductsService {
-    
+
     async findAll(): Promise<Response<IProduct[]>> {
         try {
             const products = await ProductModel.find().lean();
-            const mappedProducts = products.map(mapProduct); 
+            const mappedProducts = products.map(mapProduct);
             return { success: true, data: mappedProducts };
         } catch (error) {
             return { success: false, error: "Error fetching product" };
@@ -26,7 +26,7 @@ export class ProductsServiceReal implements ProductsService {
         try {
             const product = await ProductModel.findById(id).lean();
             if (!product) return { success: false, error: "Product not found" };
-            const mappedProduct = mapProduct(product); 
+            const mappedProduct = mapProduct(product);
             return { success: true, data: mappedProduct };
         } catch (error) {
             return { success: false, error: "Error fetching product" };
@@ -36,24 +36,28 @@ export class ProductsServiceReal implements ProductsService {
     async create(dataUser: Omit<IProduct, "id">): Promise<Response<IProduct>> {
         try {
             const newUser = await ProductModel.create(dataUser);
-            const mappedProduct = mapProduct(newUser); 
+            const mappedProduct = mapProduct(newUser);
             return { success: true, data: mappedProduct };
         } catch (error) {
             return { success: false, error: "Error creating product" };
         }
     }
-
     async editOne(id: string, payload: Partial<IProduct>): Promise<Response<IProduct>> {
         try {
-            const updatedProduct = await ProductModel.findByIdAndUpdate(id, payload, { new: true }).lean();
+            const { id: _, ...updateData } = payload;
+
+            const updatedProduct = await ProductModel.findByIdAndUpdate(
+                id,
+                updateData,
+                { new: true }
+            ).lean();
+
             if (!updatedProduct) return { success: false, error: "Product not found" };
-            const mappedProduct = mapProduct(updatedProduct); 
-            return { success: true, data: mappedProduct };
+            return { success: true, data: mapProduct(updatedProduct) };
         } catch (error) {
             return { success: false, error: "Error editing product" };
         }
     }
-
     async deleteOne(id: string): Promise<Response<void>> {
         try {
             const deleted = await ProductModel.findByIdAndDelete(id).lean();

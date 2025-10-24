@@ -45,11 +45,11 @@ class ProductsServiceReal {
     }
     async editOne(id, payload) {
         try {
-            const updatedProduct = await products_model_1.ProductModel.findByIdAndUpdate(id, payload, { new: true }).lean();
+            const { id: _, ...updateData } = payload;
+            const updatedProduct = await products_model_1.ProductModel.findByIdAndUpdate(id, updateData, { new: true }).lean();
             if (!updatedProduct)
                 return { success: false, error: "Product not found" };
-            const mappedProduct = mapProduct(updatedProduct);
-            return { success: true, data: mappedProduct };
+            return { success: true, data: mapProduct(updatedProduct) };
         }
         catch (error) {
             return { success: false, error: "Error editing product" };
