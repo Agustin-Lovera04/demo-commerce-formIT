@@ -17,5 +17,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./types/index.js"), exports);
 __exportStar(require("./calculateTotalsCart.js"), exports);
 __exportStar(require("./compare-password.js"), exports);
-__exportStar(require("./hash-password.js"), exports);
+__exportStar(require("./security-password.js"), exports);
 //# sourceMappingURL=index.js.map

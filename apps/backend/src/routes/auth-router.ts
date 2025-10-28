@@ -3,8 +3,10 @@ import { registerUser, loginUser } from "../../../../domain/dist/index.js";
 import { AuthenticationService } from "../infraestructure/services/authentication/authentication-service.js"
 import { CartServiceReal } from "../infraestructure/services/carts/cart-service.js"
 import { ConfigServiceImpl } from "../infraestructure/services/config/config-service.js";
+import { SecurityPasswordImpl } from "../infraestructure/services/security-password/security-password-service.js";
 export const router = Router();
-const authService = new AuthenticationService();
+const securityPassword = new SecurityPasswordImpl()
+const authService = new AuthenticationService(securityPassword);
 const cartService = new CartServiceReal()
 const configService = new ConfigServiceImpl()
 

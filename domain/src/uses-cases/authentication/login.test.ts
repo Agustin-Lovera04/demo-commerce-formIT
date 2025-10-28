@@ -2,23 +2,28 @@ import { describe, test, expect, beforeAll } from 'vitest'
 import { AuthenticationServiceMock } from '../../services/mocks/auth-service-mock'
 import { userMock } from "../../entities/mocks/user-mock";
 import { loginUser } from './login'
-import { hashPassword } from '../../utils';
 import { ConfigServiceMock } from '../../services/mocks/config-service-mock';
+import { SecurityPasswordMock } from '../../services/mocks/security-password-mock';
 
 
 describe('Login User', () => {
     let configService: ConfigServiceMock
     let authenticationService: AuthenticationServiceMock
+    let securityService: SecurityPasswordMock
 
     beforeAll(async ()=>{
-        const hashPasswordForTest = await hashPassword('Agustin')
-        const initialUsers = [
-            userMock({email: 'agustin@gmail.com', password: hashPasswordForTest}),
-            userMock()
-        ]
+        securityService = new SecurityPasswordMock()
+        const hashPasswordForTest = await securityService.hashPassword('Agustin')
+        if(hashPasswordForTest.success){
 
-        authenticationService = new AuthenticationServiceMock(initialUsers)
-        configService= new ConfigServiceMock()
+            const initialUsers = [
+                userMock({email: 'agustin@gmail.com', password: hashPasswordForTest.data}),
+                userMock()
+            ]
+            
+            authenticationService = new AuthenticationServiceMock(initialUsers)
+            configService= new ConfigServiceMock()
+        }
     })
 
 

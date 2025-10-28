@@ -1,5 +1,7 @@
-import { authenticationService, IUser, Response, ConfigService } from "../../../../../../domain/dist/index.js";
+import { authenticationService, IUser, Response, ConfigService, SecurityPassword } from "../../../../../../domain/dist/index.js";
 export declare class AuthenticationService implements authenticationService {
+    private passwordService;
+    constructor(passwordService: SecurityPassword);
     findAll(): Promise<Response<IUser[]>>;
     findById(id: string): Promise<Response<IUser>>;
     findUserByEmail(email: string): Promise<Response<IUser>>;

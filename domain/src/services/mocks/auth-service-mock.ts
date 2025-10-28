@@ -1,11 +1,13 @@
 import { IUser } from "../../entities";
 import { authenticationService } from "../authentication/auth-service";
-import { comparePassword, hashPassword, Response } from "../../utils/index";
+import { Response } from "../../utils/index";
 import jwt from 'jsonwebtoken';
 import { BaseServiceMock } from "./base-service-mock";
 import { ConfigService } from "../../config";
+import { SecurityPasswordMock } from "./security-password-mock";
 
 export class AuthenticationServiceMock extends BaseServiceMock<IUser> implements authenticationService {
+    private securityService = new SecurityPasswordMock()
     constructor(initialUsers: IUser[] = []) {
         super(initialUsers)
     }
@@ -26,11 +28,11 @@ export class AuthenticationServiceMock extends BaseServiceMock<IUser> implements
 
 
     async validPassword(password: string, userPassword: string): Promise<Response<boolean>> {
-        const compare = await comparePassword(password, userPassword)
-        if (!compare) {
-            return { success: false, error: "Invalid password" };
+        const compare = await this.securityService.comparePassword(password, userPassword)
+        if (!compare.success) {
+            return { success: false, error: compare.error };
         }
-        return { success: true, data: true };
+        return { success: true, data: compare.data };
     }
 
     async generateTokenUser(dataUser: Omit<IUser, "password">, configService: ConfigService): Promise<Response<string>> {
@@ -46,9 +48,9 @@ export class AuthenticationServiceMock extends BaseServiceMock<IUser> implements
     }
 
     async hashPassword(password: string): Promise<Response<string>>{
-        const hashed = await hashPassword(password)
-        if(!hashPassword)return {success:false, error: 'Unexpected error in hash password'}
+        const hashed = await this.securityService.hashPassword(password)
+        if(!hashed.success)return {success:false, error: hashed.error}
 
-        return { success: true, data: hashed}
+        return { success: true, data: hashed.data}
     }
 }

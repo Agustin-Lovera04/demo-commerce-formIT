@@ -4,6 +4,7 @@ import { Response } from "../../utils/index";
 import { BaseServiceMock } from "./base-service-mock";
 import { ConfigService } from "../../config";
 export declare class AuthenticationServiceMock extends BaseServiceMock<IUser> implements authenticationService {
+    private securityService;
     constructor(initialUsers?: IUser[]);
     findUserByEmail(email: string): Promise<Response<IUser>>;
     validEmail(email: string): Promise<Response<boolean>>;

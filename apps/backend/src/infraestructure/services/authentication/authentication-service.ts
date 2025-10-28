@@ -1,8 +1,11 @@
-import { authenticationService, IUser, Response, ConfigService, comparePassword, hashPassword } from "../../../../../../domain/dist/index.js";
+import { authenticationService, IUser, Response, ConfigService, SecurityPassword } from "../../../../../../domain/dist/index.js";
 import { UserModel } from "../../../models/user-model.js";
 import jwt from "jsonwebtoken";
 
 export class AuthenticationService implements authenticationService {
+    constructor(
+        private passwordService: SecurityPassword
+    ) { }
 
     async findAll(): Promise<Response<IUser[]>> {
         try {
@@ -48,20 +51,14 @@ export class AuthenticationService implements authenticationService {
         if (!valid) return { success: false, error: "Invalid email" };
         return { success: true, data: true };
     }
-
     async validPassword(password: string, userPassword: string): Promise<Response<boolean>> {
-        const valid = await comparePassword(password, userPassword)
-        if (!valid) {
-            return { success: false, error: "Invalid password" };
-        }
-        return { success: true, data: true };
+        return this.passwordService.comparePassword(password, userPassword);
     }
 
     async hashPassword(password: string): Promise<Response<string>> {
-        const hashed = await hashPassword(password)
-        if (!hashed) return { success: false, error: 'Unexpected error in hash password' }
-        return { success: true, data: hashed }
+        return this.passwordService.hashPassword(password);
     }
+
 
     async generateTokenUser(
         dataUser: Omit<IUser, "password">,

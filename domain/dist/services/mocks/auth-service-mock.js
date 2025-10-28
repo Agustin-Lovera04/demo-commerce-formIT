@@ -4,10 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthenticationServiceMock = void 0;
-const index_1 = require("../../utils/index");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const base_service_mock_1 = require("./base-service-mock");
+const security_password_mock_1 = require("./security-password-mock");
 class AuthenticationServiceMock extends base_service_mock_1.BaseServiceMock {
+    securityService = new security_password_mock_1.SecurityPasswordMock();
     constructor(initialUsers = []) {
         super(initialUsers);
     }
@@ -26,11 +27,11 @@ class AuthenticationServiceMock extends base_service_mock_1.BaseServiceMock {
         return { success: true, data: true };
     }
     async validPassword(password, userPassword) {
-        const compare = await (0, index_1.comparePassword)(password, userPassword);
-        if (!compare) {
-            return { success: false, error: "Invalid password" };
+        const compare = await this.securityService.comparePassword(password, userPassword);
+        if (!compare.success) {
+            return { success: false, error: compare.error };
         }
-        return { success: true, data: true };
+        return { success: true, data: compare.data };
     }
     async generateTokenUser(dataUser, configService) {
         const secret_JWT_KEY = await configService.getSecretKeyJWT();
@@ -40,10 +41,10 @@ class AuthenticationServiceMock extends base_service_mock_1.BaseServiceMock {
         return { success: true, data: token };
     }
     async hashPassword(password) {
-        const hashed = await (0, index_1.hashPassword)(password);
-        if (!index_1.hashPassword)
-            return { success: false, error: 'Unexpected error in hash password' };
-        return { success: true, data: hashed };
+        const hashed = await this.securityService.hashPassword(password);
+        if (!hashed.success)
+            return { success: false, error: hashed.error };
+        return { success: true, data: hashed.data };
     }
 }
 exports.AuthenticationServiceMock = AuthenticationServiceMock;

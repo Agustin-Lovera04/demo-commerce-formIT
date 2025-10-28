@@ -4,10 +4,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthenticationService = void 0;
-const index_js_1 = require("../../../../../../domain/dist/index.js");
 const user_model_js_1 = require("../../../models/user-model.js");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 class AuthenticationService {
+    passwordService;
+    constructor(passwordService) {
+        this.passwordService = passwordService;
+    }
     async findAll() {
         try {
             const users = await user_model_js_1.UserModel.find().lean();
@@ -56,17 +59,10 @@ class AuthenticationService {
         return { success: true, data: true };
     }
     async validPassword(password, userPassword) {
-        const valid = await (0, index_js_1.comparePassword)(password, userPassword);
-        if (!valid) {
-            return { success: false, error: "Invalid password" };
-        }
-        return { success: true, data: true };
+        return this.passwordService.comparePassword(password, userPassword);
     }
     async hashPassword(password) {
-        const hashed = await (0, index_js_1.hashPassword)(password);
-        if (!hashed)
-            return { success: false, error: 'Unexpected error in hash password' };
-        return { success: true, data: hashed };
+        return this.passwordService.hashPassword(password);
     }
     async generateTokenUser(dataUser, configService) {
         try {
