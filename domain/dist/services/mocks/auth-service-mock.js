@@ -7,7 +7,6 @@ exports.AuthenticationServiceMock = void 0;
 const index_1 = require("../../utils/index");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const base_service_mock_1 = require("./base-service-mock");
-const config_1 = require("../../config/config");
 class AuthenticationServiceMock extends base_service_mock_1.BaseServiceMock {
     constructor(initialUsers = []) {
         super(initialUsers);
@@ -33,8 +32,11 @@ class AuthenticationServiceMock extends base_service_mock_1.BaseServiceMock {
         }
         return { success: true, data: true };
     }
-    async generateTokenUser(dataUser) {
-        const token = jsonwebtoken_1.default.sign(dataUser, config_1.config.SECRET_KEY_JWT, { expiresIn: '1h' });
+    async generateTokenUser(dataUser, configService) {
+        const secret_JWT_KEY = await configService.getSecretKeyJWT();
+        if (!secret_JWT_KEY.success)
+            return { success: false, error: secret_JWT_KEY.error };
+        const token = jsonwebtoken_1.default.sign(dataUser, secret_JWT_KEY.data, { expiresIn: '1h' });
         return { success: true, data: token };
     }
     async hashPassword(password) {

@@ -3,7 +3,7 @@ import { authenticationService } from "../authentication/auth-service";
 import { comparePassword, hashPassword, Response } from "../../utils/index";
 import jwt from 'jsonwebtoken';
 import { BaseServiceMock } from "./base-service-mock";
-import { config } from "../../config/config";
+import { ConfigService } from "../../config";
 
 export class AuthenticationServiceMock extends BaseServiceMock<IUser> implements authenticationService {
     constructor(initialUsers: IUser[] = []) {
@@ -33,10 +33,13 @@ export class AuthenticationServiceMock extends BaseServiceMock<IUser> implements
         return { success: true, data: true };
     }
 
-    async generateTokenUser(dataUser: Omit<IUser, "password">): Promise<Response<string>> {
+    async generateTokenUser(dataUser: Omit<IUser, "password">, configService: ConfigService): Promise<Response<string>> {
+        const secret_JWT_KEY = await configService.getSecretKeyJWT()
+        if(!secret_JWT_KEY.success)return {success: false, error: secret_JWT_KEY.error}
+        
         const token = jwt.sign(
             dataUser,
-            config.SECRET_KEY_JWT!,
+            secret_JWT_KEY.data,
             { expiresIn: '1h' }
         );
         return { success: true, data: token };

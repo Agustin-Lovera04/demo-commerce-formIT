@@ -1,3 +1,4 @@
+import { ConfigService } from "../../config";
 import { IUser } from "../../entities";
 import { authenticationService } from "../../services/authentication/auth-service";
 import { Response } from "../../utils";
@@ -6,6 +7,7 @@ type loginData = Pick<IUser, loginFields>;
 interface loginUserData {
     dependencies: {
         authenticationService: authenticationService;
+        configService: ConfigService;
     };
     payload: loginData;
 }

@@ -5,9 +5,11 @@ const express_1 = require("express");
 const index_js_1 = require("../../../../domain/dist/index.js");
 const authentication_service_js_1 = require("../infraestructure/services/authentication/authentication-service.js");
 const cart_service_js_1 = require("../infraestructure/services/carts/cart-service.js");
+const config_service_js_1 = require("../infraestructure/services/config/config-service.js");
 exports.router = (0, express_1.Router)();
 const authService = new authentication_service_js_1.AuthenticationService();
 const cartService = new cart_service_js_1.CartServiceReal();
+const configService = new config_service_js_1.ConfigServiceImpl();
 exports.router.post("/register", async (req, res) => {
     try {
         const result = await (0, index_js_1.registerUser)({
@@ -26,7 +28,7 @@ exports.router.post("/register", async (req, res) => {
 exports.router.post("/login", async (req, res) => {
     try {
         const result = await (0, index_js_1.loginUser)({
-            dependencies: { authenticationService: authService },
+            dependencies: { authenticationService: authService, configService },
             payload: req.body,
         });
         if (!result.success) {

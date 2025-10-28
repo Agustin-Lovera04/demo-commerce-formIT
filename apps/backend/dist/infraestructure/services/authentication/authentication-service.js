@@ -68,9 +68,12 @@ class AuthenticationService {
             return { success: false, error: 'Unexpected error in hash password' };
         return { success: true, data: hashed };
     }
-    async generateTokenUser(dataUser) {
+    async generateTokenUser(dataUser, configService) {
         try {
-            const token = jsonwebtoken_1.default.sign(dataUser, index_js_1.config.SECRET_KEY_JWT, { expiresIn: "1h" });
+            const secretResult = await configService.getSecretKeyJWT();
+            if (!secretResult.success)
+                return { success: false, error: secretResult.error };
+            const token = jsonwebtoken_1.default.sign(dataUser, secretResult.data, { expiresIn: "1h" });
             return { success: true, data: token };
         }
         catch (error) {

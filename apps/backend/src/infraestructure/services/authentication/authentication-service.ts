@@ -1,4 +1,4 @@
-import { authenticationService, IUser, Response, config, comparePassword, hashPassword } from "../../../../../../domain/dist/index.js";
+import { authenticationService, IUser, Response, ConfigService, comparePassword, hashPassword } from "../../../../../../domain/dist/index.js";
 import { UserModel } from "../../../models/user-model.js";
 import jwt from "jsonwebtoken";
 
@@ -57,20 +57,29 @@ export class AuthenticationService implements authenticationService {
         return { success: true, data: true };
     }
 
-    async hashPassword(password: string): Promise<Response<string>>{
+    async hashPassword(password: string): Promise<Response<string>> {
         const hashed = await hashPassword(password)
-        if(!hashed)return{success: false, error: 'Unexpected error in hash password'}
-        return {success: true, data: hashed}
+        if (!hashed) return { success: false, error: 'Unexpected error in hash password' }
+        return { success: true, data: hashed }
     }
 
-    async generateTokenUser(dataUser: Omit<IUser, "password">): Promise<Response<string>> {
+    async generateTokenUser(
+        dataUser: Omit<IUser, "password">,
+        configService: ConfigService
+    ): Promise<Response<string>> {
         try {
-            const token = jwt.sign(dataUser, config.SECRET_KEY_JWT, { expiresIn: "1h" });
-            return { success: true, data: token};
+            const secretResult = await configService.getSecretKeyJWT();
+            if (!secretResult.success)
+                return { success: false, error: secretResult.error };
+
+            const token = jwt.sign(dataUser, secretResult.data, { expiresIn: "1h" });
+            return { success: true, data: token };
         } catch (error) {
             return { success: false, error: "Error generating token" };
         }
     }
+
+
 
     async editOne(id: string, payload: Partial<IUser>): Promise<Response<IUser>> {
         try {

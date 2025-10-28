@@ -1,0 +1,1 @@
+{"version":3,"file":"config-service-mock.js","sourceRoot":"","sources":["../../../src/services/mocks/config-service-mock.ts"],"names":[],"mappings":";;;AAIA,MAAa,iBAAiB;IAC1B,KAAK,CAAC,eAAe;QACjB,OAAO,EAAE,OAAO,EAAE,IAAI,EAAE,IAAI,EAAE,iBAAiB,EAAE,CAAC;IACtD,CAAC;CACJ;AAJD,8CAIC"}

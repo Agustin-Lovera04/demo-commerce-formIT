@@ -1,7 +1,5 @@
-import dotenv from 'dotenv';
+import { Response } from "../utils";
 
-dotenv.config();
-
-export const config = {
-  SECRET_KEY_JWT: process.env.SECRET_KEY_JWT || 'default_secret',
-};
+export interface ConfigService {
+  getSecretKeyJWT(): Promise<Response<string>>;
+}

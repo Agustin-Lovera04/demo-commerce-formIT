@@ -2,9 +2,11 @@ import { Router, Request, Response } from "express";
 import { registerUser, loginUser } from "../../../../domain/dist/index.js";
 import { AuthenticationService } from "../infraestructure/services/authentication/authentication-service.js"
 import { CartServiceReal } from "../infraestructure/services/carts/cart-service.js"
+import { ConfigServiceImpl } from "../infraestructure/services/config/config-service.js";
 export const router = Router();
 const authService = new AuthenticationService();
 const cartService = new CartServiceReal()
+const configService = new ConfigServiceImpl()
 
 router.post("/register", async (req: Request, res: Response) => {
   try {
@@ -26,10 +28,9 @@ router.post("/register", async (req: Request, res: Response) => {
 router.post("/login", async (req: Request, res: Response) => {
   try {
     const result = await loginUser({
-      dependencies: { authenticationService: authService },
+      dependencies: { authenticationService: authService, configService },
       payload: req.body,
     });
-
     if (!result.success) {
       return res.status(400).json({ error: result.error });
     }

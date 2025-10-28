@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { config } from "../../../../domain/dist";
+import { ConfigServiceImpl } from "../infraestructure/services/config/config-service.js";
 
-const JWT_SECRET = config.SECRET_KEY_JWT;
+const configService = new ConfigServiceImpl();
 
-export const jwtValidate = (req: Request, res: Response, next: NextFunction) => {
+export const jwtValidate = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = req.cookies?.token;
 
@@ -12,7 +12,12 @@ export const jwtValidate = (req: Request, res: Response, next: NextFunction) => 
       return res.status(401).json({ error: "You must log in." });
     }
 
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const secretResult = await configService.getSecretKeyJWT();
+    if (!secretResult.success || !secretResult.data) {
+      return res.status(500).json({ error: "JWT secret not configured" });
+    }
+
+    const decoded = jwt.verify(token, secretResult.data);
     (req as any).user = decoded;
 
     next();
