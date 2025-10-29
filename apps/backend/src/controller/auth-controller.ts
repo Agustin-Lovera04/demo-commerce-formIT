@@ -12,61 +12,61 @@ const configService = new ConfigServiceImpl()
 
 export class AuthController {
 
-    static async register(req: Request, res: Response) {
-        try {
-            const result = await registerUser({
-                dependencies: { authenticationService: authService, cartService },
-                payload: req.body,
-            });
+  static async register(req: Request, res: Response) {
+    try {
+      const result = await registerUser({
+        dependencies: { authenticationService: authService, cartService },
+        payload: req.body,
+      });
 
-            if (!result.success) {
-                return res.status(400).json({ error: result.error });
-            }
+      if (!result.success) {
+        return res.status(400).json({ error: result.error });
+      }
 
-            return res.status(201).json({ user: result.data });
-        } catch (error) {
-            return res.status(500).json({ error: "Internal server error" });
-        }
+      return res.status(201).json({ user: result.data });
+    } catch (error) {
+      return res.status(500).json({ error: "Internal server error" });
     }
-
-    static async login(req: Request, res: Response){
-  try {
-    const result = await loginUser({
-      dependencies: { authenticationService: authService, configService },
-      payload: req.body,
-    });
-    if (!result.success) {
-      return res.status(400).json({ error: result.error });
-    }
-
-    if (!result.data) {
-      return res.status(404).json({ error: 'Internal server error' });
-    }
-
-    res.cookie("token", result.data, {
-      httpOnly: true,
-      sameSite: "strict",
-      maxAge: 1000 * 60 * 60 * 24
-    });
-
-    return res.status(200).json(result.data);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Internal server error" });
   }
-}
 
-static async logout(req: Request, res: Response){
-  try {
-    res.clearCookie('token', {
-      httpOnly: true,
-      sameSite: 'strict',
-    });
+  static async login(req: Request, res: Response) {
+    try {
+      const result = await loginUser({
+        dependencies: { authenticationService: authService, configService },
+        payload: req.body,
+      });
+      if (!result.success) {
+        return res.status(400).json({ error: result.error });
+      }
 
-    return res.status(200).json({ ok: 'Session closed' });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Internal server error" });
+      if (!result.data) {
+        return res.status(404).json({ error: 'Internal server error' });
+      }
+
+      res.cookie("token", result.data, {
+        httpOnly: true,
+        sameSite: "strict",
+        maxAge: 1000 * 60 * 60 * 24
+      });
+
+      return res.status(200).json(result.data);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Internal server error" });
+    }
   }
-}
+
+  static async logout(req: Request, res: Response) {
+    try {
+      res.clearCookie('token', {
+        httpOnly: true,
+        sameSite: 'strict',
+      });
+
+      return res.status(200).json({ ok: 'Session closed' });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  }
 }
