@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { BuyOrderController } from "../controller/buy-order";
+import { BuyOrderController } from "../controller/buy-order-controller";
 import { accessControl } from "../middleware/accessControl";
 import { jwtValidate } from "../middleware/jwtValidate";
 export const router = Router();
