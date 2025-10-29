@@ -1,7 +1,6 @@
 import { IUser } from "../../entities";
 import { authenticationService } from "../authentication/auth-service";
 import { Response } from "../../utils/index";
-import jwt from 'jsonwebtoken';
 import { BaseServiceMock } from "./base-service-mock";
 import { ConfigService } from "../../config";
 import { SecurityPasswordMock } from "./security-password-mock";
@@ -39,11 +38,7 @@ export class AuthenticationServiceMock extends BaseServiceMock<IUser> implements
         const secret_JWT_KEY = await configService.getSecretKeyJWT()
         if(!secret_JWT_KEY.success)return {success: false, error: secret_JWT_KEY.error}
         
-        const token = jwt.sign(
-            dataUser,
-            secret_JWT_KEY.data,
-            { expiresIn: '1h' }
-        );
+        const token = `token_${dataUser.id}`;
         return { success: true, data: token };
     }
 

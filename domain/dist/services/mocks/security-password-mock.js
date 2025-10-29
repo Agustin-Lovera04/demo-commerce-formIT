@@ -6,7 +6,9 @@ class SecurityPasswordMock {
         return { success: true, data: `hashed_${password}` };
     }
     async comparePassword(password, hashedPassword) {
-        return { success: true, data: hashedPassword === `hashed_${password}` };
+        if ((hashedPassword === `hashed_${password}`) === false)
+            return { success: false, error: 'Invalid Credentials' };
+        return { success: true, data: true };
     }
 }
 exports.SecurityPasswordMock = SecurityPasswordMock;

@@ -1,10 +1,6 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthenticationServiceMock = void 0;
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const base_service_mock_1 = require("./base-service-mock");
 const security_password_mock_1 = require("./security-password-mock");
 class AuthenticationServiceMock extends base_service_mock_1.BaseServiceMock {
@@ -37,7 +33,7 @@ class AuthenticationServiceMock extends base_service_mock_1.BaseServiceMock {
         const secret_JWT_KEY = await configService.getSecretKeyJWT();
         if (!secret_JWT_KEY.success)
             return { success: false, error: secret_JWT_KEY.error };
-        const token = jsonwebtoken_1.default.sign(dataUser, secret_JWT_KEY.data, { expiresIn: '1h' });
+        const token = `token_${dataUser.id}`;
         return { success: true, data: token };
     }
     async hashPassword(password) {

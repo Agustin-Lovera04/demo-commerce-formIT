@@ -7,6 +7,7 @@ export class SecurityPasswordMock implements SecurityPassword {
   }
 
   async comparePassword(password: string, hashedPassword: string): Promise<Response<boolean>> {
-    return { success: true, data: hashedPassword === `hashed_${password}` };
+   if( (hashedPassword === `hashed_${password}`) === false) return {success: false, error: 'Invalid Credentials'}
+    return { success: true, data: true};
   }
 }
