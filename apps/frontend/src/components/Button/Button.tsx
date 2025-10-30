@@ -1,6 +1,6 @@
 interface ButtonProps {
     label: string
-    variant: 'success' | 'danger'
+    variant: 'success' | 'danger' | 'warning'
 }
 
 const Button = ({label, variant}: ButtonProps) => {

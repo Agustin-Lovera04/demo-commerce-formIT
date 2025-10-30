@@ -25,3 +25,10 @@ export const Secondary: Story = {
     variant: 'danger',
   },
 };
+
+export const Warning: Story = {
+  args: {
+    label: 'Warning Button',
+    variant: 'warning',
+  },
+};
