@@ -26,7 +26,6 @@ export const ProductWithStock : Story = {
     }
 }
 
-
 export const ProductOutStock : Story = {
     args:{ 
         dataProduct: [
