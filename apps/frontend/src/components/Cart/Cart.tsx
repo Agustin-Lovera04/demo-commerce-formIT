@@ -11,6 +11,7 @@ const Cart = ({products}: DataForCart) => {
     <>
         <div>Cart</div>
         <TableCart products={products}/>
+        {/* Como hago para pasarles fn */}
         <Button label="Finally Buy" variant="success"></Button>
     </>
   )
