@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from "@storybook/react";
-import TableCart from "./TableCart";
+import Cart from "./Cart";
 
-const meta: Meta<typeof TableCart> = {
-    title: 'UI/TableCart',
-    component: TableCart,
+const meta: Meta<typeof Cart> = {
+    title: 'UI/Cart',
+    component: Cart,
     parameters: {
         layout: 'centered'
     }
@@ -11,11 +11,11 @@ const meta: Meta<typeof TableCart> = {
 
 export default meta
 
-type Story = StoryObj<typeof TableCart>;
+type Story = StoryObj<typeof Cart>
 
-export const TableWithProducts: Story = {
+export const CartWithProducts : Story = {
     args: {
-        products: [
+    products: [
         {
             product: 'Prod1',
             quantity: 2,
