@@ -36,7 +36,7 @@ const Cards = ({ dataProduct }: CardsProps) => {
             {p.stock === false ? (
               <div className="alert alert-warning">Out of stock</div>
             ) : (
-              <button onClick={(()=> addToCart(p.id))}>Add to cart</button>
+              <button onClick={()=> addToCart(p.id)}>Add to cart</button>
             )}
           </div>
         </div>
