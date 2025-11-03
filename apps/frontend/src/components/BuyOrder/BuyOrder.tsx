@@ -9,6 +9,7 @@ const BuyOrder = ({products}: DataForOrder) => {
     <div className="bg-secondary">
         <h1>Buy order</h1>
         <TableCart products={products}/>
+        <a href="#">Return to home </a>
     </div>
   )
 }

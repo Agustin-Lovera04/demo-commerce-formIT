@@ -1,4 +1,5 @@
 import { IProductCartItem } from "../../../../../domain/dist"
+import Button from "../Button/Button"
 import TableCart from "../TableCart/TableCart"
 
 interface DataForCart {
@@ -10,6 +11,8 @@ const Cart = ({products}: DataForCart) => {
     <>
         <h1>Cart</h1>
         <TableCart products={products}/>
+        <Button label="Clean cart" variant="danger"/>
+        <Button label="Buy" variant="success"/>
     </>
   )
 }

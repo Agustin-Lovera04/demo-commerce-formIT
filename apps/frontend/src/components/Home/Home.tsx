@@ -3,10 +3,8 @@ import Cards, { CardsProps } from "../Cards/Cards"
 const Home = ({dataProduct}: CardsProps) => {
   return (
     <div>
-        <nav> navbar </nav>
-        <main>
-            <Cards dataProduct={dataProduct}/>
-        </main>
+        <h1>Welcome!</h1>
+        <Cards dataProduct={dataProduct}/>
     </div>
   )
 }
