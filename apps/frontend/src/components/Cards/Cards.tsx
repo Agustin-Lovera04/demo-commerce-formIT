@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { IProduct } from '../../../../../domain/dist';
 
-interface CardsProps {
+export interface CardsProps {
   dataProduct: IProduct[];
 }
 
