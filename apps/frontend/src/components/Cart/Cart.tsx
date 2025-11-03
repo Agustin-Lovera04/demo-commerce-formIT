@@ -1,5 +1,4 @@
 import { IProductCartItem } from "../../../../../domain/dist"
-import Button from "../Button/Button"
 import TableCart from "../TableCart/TableCart"
 
 interface DataForCart {
@@ -9,14 +8,10 @@ interface DataForCart {
 const Cart = ({products}: DataForCart) => {
   return (
     <>
-        <div>Cart</div>
+        <h1>Cart</h1>
         <TableCart products={products}/>
-        {/* Como hago para pasarles fn */}
-        <Button label="Finally Buy" variant="success"></Button>
     </>
   )
 }
 
 export default Cart
-
-//Integrar Llamadas reales a API

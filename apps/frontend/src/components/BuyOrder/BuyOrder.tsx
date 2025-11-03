@@ -1,5 +1,4 @@
 import { IProductCartItem } from "../../../../../domain/dist"
-import Button from "../Button/Button"
 import TableCart from "../TableCart/TableCart"
 
 interface DataForOrder{
@@ -10,7 +9,6 @@ const BuyOrder = ({products}: DataForOrder) => {
     <div className="bg-secondary">
         <h1>Buy order</h1>
         <TableCart products={products}/>
-        <Button label="Return to home" variant="warning"></Button>
     </div>
   )
 }
