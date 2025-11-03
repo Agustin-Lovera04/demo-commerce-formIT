@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Button from "../Button/Button";
 
-interface FormProps {
+export interface FormProps {
   labels: string[];
   txtForBtn: string;
   urlAction: string;
@@ -64,7 +64,7 @@ const Form = ({ labels, txtForBtn, urlAction, method, id }: FormProps) => {
           );
         })}
 
-        <Button label={txtForBtn} variant="warning"/>
+        <Button label={txtForBtn} variant="warning" type='submit'/>
       </form>
     </div>
   );
