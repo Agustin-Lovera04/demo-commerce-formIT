@@ -1,10 +1,10 @@
-import Cards, { CardsProps } from "../Cards/Cards"
+import CardsList from "../CardsList/CardsList"
 
-const Home = ({dataProduct}: CardsProps) => {
+const Home = () => {
   return (
     <div>
         <h1>Welcome!</h1>
-        <Cards dataProduct={dataProduct}/>
+        <CardsList />
     </div>
   )
 }

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { IProductCartItem } from "../../../../../domain/dist"
 import TableCart from "../TableCart/TableCart"
 
@@ -9,7 +10,7 @@ const BuyOrder = ({products}: DataForOrder) => {
     <div className="bg-secondary">
         <h1>Buy order</h1>
         <TableCart products={products}/>
-        <a href="#">Return to home </a>
+        <Link to="/">Return to home </Link>
     </div>
   )
 }
