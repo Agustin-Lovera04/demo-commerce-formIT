@@ -40,13 +40,12 @@ export const CreateProductForm: Story = {
   }
 };
 
-
 export const EditProductForm: Story = {
   args: {
     labels: ['Title', 'Stock', 'Price'],
     txtForBtn: 'Edit',
     urlAction: `${import.meta.env.BASE_URL}/products/editProduct`,
-    method: 'POST'
+    method: 'POST',
+    id: 'Prod1'
   }
 };
-

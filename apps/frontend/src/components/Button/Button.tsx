@@ -1,11 +1,12 @@
 interface ButtonProps {
     label: string
-    variant: 'success' | 'danger' | 'warning'
+    variant: 'success' | 'danger' | 'warning',
+    onClick: () => void
 }
 
-const Button = ({label, variant}: ButtonProps) => {
+const Button = ({label, variant, onClick}: ButtonProps) => {
   return (
-    <button className={`btn btn-${variant}`}>{label}</button>
+    <button className={`btn btn-${variant}`} onClick={()=>onClick()}>{label}</button>
   )
 }
 

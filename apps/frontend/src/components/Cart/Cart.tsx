@@ -18,3 +18,5 @@ const Cart = ({products}: DataForCart) => {
 }
 
 export default Cart
+
+//Integrar Llamadas reales a API

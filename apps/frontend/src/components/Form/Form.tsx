@@ -6,9 +6,10 @@ interface FormProps {
   txtForBtn: string;
   urlAction: string;
   method: "POST" | "PUT" | "EDIT" | "DELETE";
+  id?: string
 }
 
-const Form = ({ labels, txtForBtn, urlAction, method }: FormProps) => {
+const Form = ({ labels, txtForBtn, urlAction, method, id }: FormProps) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
@@ -20,7 +21,9 @@ const Form = ({ labels, txtForBtn, urlAction, method }: FormProps) => {
     const formData = new FormData(e.currentTarget);
 
     try {
-      const response = await fetch(urlAction, {
+      const fullUrl = id ? `${urlAction}/${id}` : urlAction;
+      
+      const response = await fetch(fullUrl, {
         method,
         body: formData,
       });
