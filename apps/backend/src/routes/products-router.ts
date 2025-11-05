@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { accessControl } from "../middleware/accessControl";
 import { jwtValidate } from "../middleware/jwtValidate";
-import { ProductsController } from 'src/controller/products-controller';
+import { ProductsController } from '../controller/products-controller';
 
 export const router = Router();
 

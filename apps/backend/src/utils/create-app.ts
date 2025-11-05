@@ -5,12 +5,19 @@ import { router as productsRouter } from "../routes/products-router";
 import { router as cartRouter } from "../routes/cart-router"
 import {router as buyOrderRouter} from '../routes/buy-order-router'
 import cookieParser from "cookie-parser";
+import cors from 'cors'
 
 export function createApp(db: any) {
   const app = express();
 
+  app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
   app.use(cookieParser())
+
+  app.use(cors({
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    credentials: true,
+  }));
 
   app.use('/buyOrder', buyOrderRouter)
   app.use('/cart', cartRouter)

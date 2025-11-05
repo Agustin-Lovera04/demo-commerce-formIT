@@ -3,9 +3,9 @@ import Register from "../Register/Register"
 
 const RegisterContainer = () => {
   const argsRegister: FormProps = {
-    labels: ['Email', 'Password', 'Name'],
+    labels: ['email', 'password', 'name'],
     txtForBtn: 'Register',
-    urlAction: `${import.meta.env.BASE_URL}/auth/register`,
+    urlAction: `${import.meta.env.VITE_BASE_URL}/auth/register`,
     method: "POST"
   }
   return (

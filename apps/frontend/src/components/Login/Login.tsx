@@ -4,7 +4,7 @@ const Login = ({labels, method, txtForBtn, urlAction}: FormProps ) => {
   return (
     <div>
         <h1>Login user</h1>
-        <Form labels={labels} method={method} txtForBtn={txtForBtn} urlAction={urlAction} />
+        <Form labels={labels} method={method} txtForBtn={txtForBtn} urlAction={urlAction} redirectOnSuccess="/home"/>
     </div>
   )
 }

@@ -10,7 +10,7 @@ const Cards = ({ dataProduct }: CardsProps) => {
   const [exitMessage, setExitMessage]= useState<string | null>(null)
   const addToCart = async (id: string)=> {
     try {
-      const response = await fetch(`${import.meta.env.BASE_URL}/cart/addProductToCart/${id}`)
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/cart/addProductToCart/${id}`)
 
       const data = await response.json()
 

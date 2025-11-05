@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"; // 👈 para redirigir
 import Button from "../Button/Button";
 
 export interface FormProps {
@@ -6,37 +7,50 @@ export interface FormProps {
   txtForBtn: string;
   urlAction: string;
   method: "POST" | "PUT" | "EDIT" | "DELETE";
-  id?: string
+  id?: string;
+  redirectOnSuccess?: string;
 }
 
-const Form = ({ labels, txtForBtn, urlAction, method, id }: FormProps) => {
+const Form = ({ labels, txtForBtn, urlAction, method, id, redirectOnSuccess }: FormProps) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setSuccess(null);
 
-    const formData = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const data: Record<string, any> = { stock: true };
+
+    labels.forEach((field) => {
+      const input = form.elements.namedItem(field) as HTMLInputElement;
+      data[field] = input.value;
+    });
 
     try {
       const fullUrl = id ? `${urlAction}/${id}` : urlAction;
-      
       const response = await fetch(fullUrl, {
         method,
-        body: formData,
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
 
-      const data = await response.json();
+      const result = await response.json();
 
-      if (!response.ok) {
-        setError(data.error || "Request failed");
-      } else {
+      if (!response.ok) setError(result.error || "Request failed");
+      else {
+        if (redirectOnSuccess) {
+          navigate(redirectOnSuccess);
+          return;
+        }
+
         setSuccess("Form submitted successfully!");
-        e.currentTarget.reset();
+        form.reset();
       }
-    } catch (err) {
+    } catch {
       setError("Internal server error");
     }
   };
@@ -47,24 +61,19 @@ const Form = ({ labels, txtForBtn, urlAction, method, id }: FormProps) => {
       {success && <div className="alert alert-success">{success}</div>}
 
       <form onSubmit={handleForm}>
-        {labels.map((field) => {
-          let inputElement;
-          if (field == 'price') {
-            inputElement = <input type="number" name={field} id={field}  className="form-control"/>;
-          } else if (field == 'stock') {
-            inputElement = <input type="checkbox" name={field} id={field}  className="form-control"/>;
-          } else {
-            inputElement = <input type={field} name={field} id={field}  className="form-control"/>;
-          }
-          return (
-            <div key={field}>
-              <label htmlFor={field} className="form-label">{field}</label>
-              {inputElement}
-            </div>
-          );
-        })}
+        {labels.map((field) => (
+          <div key={field} className="mb-3">
+            <label htmlFor={field} className="form-label">{field}</label>
+            <input
+              type={field === "price" ? "number" : field}
+              name={field}
+              id={field}
+              className="form-control"
+            />
+          </div>
+        ))}
 
-        <Button label={txtForBtn} variant="warning" type='submit'/>
+        <Button label={txtForBtn} variant="warning" type="submit" />
       </form>
     </div>
   );

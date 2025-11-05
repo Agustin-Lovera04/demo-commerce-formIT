@@ -40,8 +40,9 @@ class AuthController {
             }
             res.cookie("token", result.data, {
                 httpOnly: true,
-                sameSite: "strict",
-                maxAge: 1000 * 60 * 60 * 24
+                sameSite: "none",
+                secure: true,
+                maxAge: 1000 * 60 * 60 * 24,
             });
             return res.status(200).json(result.data);
         }

@@ -3,9 +3,9 @@ import Login from "../Login/Login"
 
 const LoginContainer = () => {
   const argslogin: FormProps = {
-    labels: ['Email', 'Password', 'Name'],
-    txtForBtn: 'Register',
-    urlAction: `${import.meta.env.BASE_URL}/auth/register`,
+    labels: ['email', 'password'],
+    txtForBtn: 'Login',
+    urlAction: `${import.meta.env.VITE_BASE_URL}/auth/login`,
     method: "POST"
   }
   return (
