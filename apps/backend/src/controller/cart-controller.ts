@@ -46,6 +46,7 @@ export class CartController {
         return res.status(200).json({ ok: deleted.data });
     }
 
+
     static async addProductToCart(req: Request, res: Response) {
         const { cartId } = (req as any).user;
 
@@ -54,7 +55,6 @@ export class CartController {
             return res.status(404).json({ error: 'Missing cid or pid' });
         }
         const added = await addProductToCart({ dependencies: { cartService, productService }, payload: { cid: cartId, pid: req.params.pid } });
-
         if (!added.success) return res.status(400).json({ error: added.error });
         return res.status(200).json({ ok: 'Product added to cart' });
     }

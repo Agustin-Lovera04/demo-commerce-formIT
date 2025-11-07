@@ -59,7 +59,6 @@ export class AuthenticationService implements authenticationService {
         return this.passwordService.hashPassword(password);
     }
 
-
     async generateTokenUser(
         dataUser: Omit<IUser, "password">,
         configService: ConfigService
@@ -76,6 +75,22 @@ export class AuthenticationService implements authenticationService {
         }
     }
 
+    async verifyToken(
+        token: string,
+        configService: ConfigService
+    ): Promise<Response<IUser>> {
+        try {
+            const secretResult = await configService.getSecretKeyJWT();
+            if (!secretResult.success)
+                return { success: false, error: secretResult.error };
+
+            const decoded = jwt.verify(token, secretResult.data) as IUser;
+
+            return { success: true, data: decoded };
+        } catch (error) {
+            return { success: false, error: "Invalid or expired token" };
+        }
+    }
 
 
     async editOne(id: string, payload: Partial<IUser>): Promise<Response<IUser>> {

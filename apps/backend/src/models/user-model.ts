@@ -13,7 +13,7 @@ const userSchema = new Schema<IUser>({
   password: { type: String, required: true },
   cartId: { type: String},
   name: { type: String },
-  role: { type: String, UserRole },
+  role: { type: String, UserRole, default: UserRole.CLIENT },
 });
 
 export const UserModel = model<IUser>('User', userSchema);

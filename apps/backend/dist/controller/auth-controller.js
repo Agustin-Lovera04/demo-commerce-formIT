@@ -64,6 +64,21 @@ class AuthController {
             return res.status(500).json({ error: "Internal server error" });
         }
     }
+    static async current(req, res) {
+        try {
+            const token = req.cookies.token;
+            if (!token)
+                return res.status(401).json({ error: "No token" });
+            const user = await authService.verifyToken(token, configService);
+            if (!user)
+                return res.status(401).json({ error: "Invalid token" });
+            res.status(200).json(user);
+        }
+        catch (error) {
+            console.error(error);
+            res.status(500).json({ error: "Internal server error" });
+        }
+    }
 }
 exports.AuthController = AuthController;
 //# sourceMappingURL=auth-controller.js.map

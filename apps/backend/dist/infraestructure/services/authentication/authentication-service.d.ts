@@ -10,6 +10,7 @@ export declare class AuthenticationService implements authenticationService {
     validPassword(password: string, userPassword: string): Promise<Response<boolean>>;
     hashPassword(password: string): Promise<Response<string>>;
     generateTokenUser(dataUser: Omit<IUser, "password">, configService: ConfigService): Promise<Response<string>>;
+    verifyToken(token: string, configService: ConfigService): Promise<Response<IUser>>;
     editOne(id: string, payload: Partial<IUser>): Promise<Response<IUser>>;
     deleteOne(id: string): Promise<Response<void>>;
 }

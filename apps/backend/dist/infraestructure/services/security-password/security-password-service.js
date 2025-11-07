@@ -19,6 +19,8 @@ class SecurityPasswordImpl {
     async comparePassword(password, hashedPassword) {
         try {
             const match = await bcrypt_1.default.compare(password, hashedPassword);
+            if (match === false)
+                return { success: false, error: "Invalid credentials" };
             return { success: true, data: match };
         }
         catch (error) {

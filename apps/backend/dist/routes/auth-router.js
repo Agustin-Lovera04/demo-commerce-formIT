@@ -7,5 +7,6 @@ exports.router = (0, express_1.Router)();
 exports.router.post("/register", auth_controller_1.AuthController.register);
 exports.router.post("/login", auth_controller_1.AuthController.login);
 exports.router.get('/logout', auth_controller_1.AuthController.logout);
+exports.router.get("/current", auth_controller_1.AuthController.current);
 exports.default = exports.router;
 //# sourceMappingURL=auth-router.js.map

@@ -76,6 +76,18 @@ class AuthenticationService {
             return { success: false, error: "Error generating token" };
         }
     }
+    async verifyToken(token, configService) {
+        try {
+            const secretResult = await configService.getSecretKeyJWT();
+            if (!secretResult.success)
+                return { success: false, error: secretResult.error };
+            const decoded = jsonwebtoken_1.default.verify(token, secretResult.data);
+            return { success: true, data: decoded };
+        }
+        catch (error) {
+            return { success: false, error: "Invalid or expired token" };
+        }
+    }
     async editOne(id, payload) {
         try {
             const updatedUser = await user_model_js_1.UserModel.findByIdAndUpdate(id, payload, { new: true }).lean();

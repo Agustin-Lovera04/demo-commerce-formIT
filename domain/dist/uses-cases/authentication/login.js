@@ -15,7 +15,7 @@ async function loginUser({ dependencies, payload }) {
         if (!validPassword.success) {
             return { success: false, error: 'Invalid credentials' };
         }
-        const userSafeField = existUserInDB.data;
+        let { password: _, ...userSafeField } = existUserInDB.data;
         const token = await dependencies.authenticationService.generateTokenUser(userSafeField, dependencies.configService);
         if (!token.success || token.data == undefined) {
             return { success: false, error: 'Internal error in login process' };

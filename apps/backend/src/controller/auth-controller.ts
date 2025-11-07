@@ -46,7 +46,7 @@ export class AuthController {
       res.cookie("token", result.data, {
         httpOnly: true,
         sameSite: "none",
-        secure: true, 
+        secure: true,
         maxAge: 1000 * 60 * 60 * 24,
       });
 
@@ -68,6 +68,21 @@ export class AuthController {
     } catch (error) {
       console.error(error);
       return res.status(500).json({ error: "Internal server error" });
+    }
+  }
+
+  static async current(req: Request, res: Response) {
+    try {
+      const token = req.cookies.token;
+      if (!token) return res.status(401).json({ error: "No token" });
+
+      const user = await authService.verifyToken(token, configService);
+      if (!user) return res.status(401).json({ error: "Invalid token" });
+
+      res.status(200).json(user);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal server error" });
     }
   }
 }

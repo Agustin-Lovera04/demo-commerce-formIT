@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // 👈 para redirigir
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../Button/Button";
+import { UserContext } from "../../Context/UserContext";
 
 export interface FormProps {
   labels: string[];
@@ -15,6 +16,7 @@ const Form = ({ labels, txtForBtn, urlAction, method, id, redirectOnSuccess }: F
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const navigate = useNavigate();
+  const userContext = useContext(UserContext);
 
   const handleForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,16 +42,21 @@ const Form = ({ labels, txtForBtn, urlAction, method, id, redirectOnSuccess }: F
 
       const result = await response.json();
 
-      if (!response.ok) setError(result.error || "Request failed");
-      else {
-        if (redirectOnSuccess) {
-          navigate(redirectOnSuccess);
-          return;
-        }
-
-        setSuccess("Form submitted successfully!");
-        form.reset();
+      if (!response.ok) {
+        setError(result.error || "Request failed");
+        return;
       }
+
+      if (redirectOnSuccess) {
+        if (result?.data?.user && userContext) {
+          userContext.login(result.data.user); 
+        }
+        navigate(redirectOnSuccess);
+        return;
+      }
+
+      setSuccess("Form submitted successfully!");
+      form.reset();
     } catch {
       setError("Internal server error");
     }
@@ -72,7 +79,6 @@ const Form = ({ labels, txtForBtn, urlAction, method, id, redirectOnSuccess }: F
             />
           </div>
         ))}
-
         <Button label={txtForBtn} variant="warning" type="submit" />
       </form>
     </div>

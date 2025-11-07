@@ -11,7 +11,7 @@ const userSchema = new mongoose_1.Schema({
     password: { type: String, required: true },
     cartId: { type: String },
     name: { type: String },
-    role: { type: String, UserRole: exports.UserRole },
+    role: { type: String, UserRole: exports.UserRole, default: exports.UserRole.CLIENT },
 });
 exports.UserModel = (0, mongoose_1.model)('User', userSchema);
 //# sourceMappingURL=user-model.js.map

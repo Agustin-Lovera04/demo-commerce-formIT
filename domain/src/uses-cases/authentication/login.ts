@@ -15,7 +15,6 @@ interface loginUserData {
 export async function loginUser({ dependencies, payload }: loginUserData): Promise<Response<string>> {
     try {
         const { email, password } = payload
-
         let valid = await dependencies.authenticationService.validEmail(email)
         if (!valid.success) return { success: false, error: valid.error }
 
@@ -28,9 +27,7 @@ export async function loginUser({ dependencies, payload }: loginUserData): Promi
         if (!validPassword.success) {
             return { success: false, error: 'Invalid credentials' }
         }
-
-        const userSafeField: Omit<IUser, 'password'> = existUserInDB.data
-
+        let { password: _, ...userSafeField } = existUserInDB.data;
         const token = await dependencies.authenticationService.generateTokenUser(userSafeField, dependencies.configService)
         if (!token.success || token.data == undefined) {
             return { success: false, error: 'Internal error in login process' }

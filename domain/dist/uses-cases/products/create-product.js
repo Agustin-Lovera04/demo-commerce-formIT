@@ -5,11 +5,10 @@ async function createProduct({ dependencies, payload }) {
     try {
         if (!payload)
             return { success: false, error: 'Missing fields' };
-        const { title, price } = payload;
-        if (!title || !price) {
+        const { title, price, stock } = payload;
+        if (!title || !price || !stock) {
             return { success: false, error: 'Missing fields' };
         }
-        let stock = true;
         if (typeof title !== 'string' || typeof price !== 'number' || typeof stock !== 'boolean') {
             return { success: false, error: 'Invalid field types' };
         }

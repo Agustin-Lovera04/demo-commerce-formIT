@@ -25,7 +25,7 @@ export async function registerUser({ dependencies, payload }: registerUserData):
         if (existUserInDB.success && existUserInDB.data) {
             return { success: false, error: 'User already exists' }
         }
-
+        
         if (email.toLowerCase() === 'admin@admin.com') {
             payload.role = UserRole.ADMIN;
         }

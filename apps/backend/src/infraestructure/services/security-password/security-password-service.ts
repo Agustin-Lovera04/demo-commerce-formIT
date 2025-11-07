@@ -15,6 +15,7 @@ export class SecurityPasswordImpl implements SecurityPassword {
   async comparePassword(password: string, hashedPassword: string): Promise<Response<boolean>> {
     try {
       const match = await bcrypt.compare(password, hashedPassword);
+      if(match === false)return { success: false, error: "Invalid credentials" };
       return { success: true, data: match };
     } catch (error) {
       return { success: false, error: "Error comparing password" };
