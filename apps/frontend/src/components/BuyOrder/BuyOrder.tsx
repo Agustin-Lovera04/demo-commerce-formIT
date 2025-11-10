@@ -7,10 +7,10 @@ interface DataForOrder{
 }
 const BuyOrder = ({products}: DataForOrder) => {
   return (
-    <div className="bg-secondary">
+    <div className="alert alert-warning">
         <h1>Buy order</h1>
         <TableCart products={products}/>
-        <Link to="/">Return to home </Link>
+        <Link className="btn btn-primary" to="/">Return to home </Link>
     </div>
   )
 }

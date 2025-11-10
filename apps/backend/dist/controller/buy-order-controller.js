@@ -27,6 +27,23 @@ class BuyOrderController {
             return res.status(500).json({ error: 'Internal service error' });
         }
     }
+    static async getOrder(req, res) {
+        try {
+            const { id } = req.params;
+            if (!id) {
+                res.setHeader('Content-Type', 'application/json');
+                return res.status(404).json({ error: 'Missing order id' });
+            }
+            const getOrder = await buyOrderService.findById(id);
+            if (!getOrder.success) {
+                return res.status(404).json({ error: getOrder.error });
+            }
+            return res.status(200).json({ ok: getOrder.data });
+        }
+        catch (error) {
+            return res.status(500).json({ error: 'Internal service error' });
+        }
+    }
 }
 exports.BuyOrderController = BuyOrderController;
 //# sourceMappingURL=buy-order-controller.js.map

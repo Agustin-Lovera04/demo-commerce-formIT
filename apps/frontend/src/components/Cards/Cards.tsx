@@ -29,7 +29,7 @@ const Cards = ({ dataProduct }: CardsProps) => {
         return;
       }
 
-      setExitMessage("Producto agregado al carrito");
+      setExitMessage("Product added to cart");
       setError(null);
     } catch (error) {
       setExitMessage(null);
